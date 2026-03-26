@@ -1,0 +1,7 @@
+src/pages/AdminDashboard.tsx(2,10): error TS2614: Module '"../components/Layout"' has no exported member 'Layout'. Did you mean to use 'import Layout from "../components/Layout"' instead?
+src/pages/Articles.tsx(2,10): error TS2614: Module '"../components/Layout"' has no exported member 'Layout'. Did you mean to use 'import Layout from "../components/Layout"' instead?
+src/pages/Home.tsx(3,10): error TS2614: Module '"../components/Layout"' has no exported member 'Layout'. Did you mean to use 'import Layout from "../components/Layout"' instead?
+src/pages/Login.tsx(4,10): error TS2614: Module '"../components/Layout"' has no exported member 'Layout'. Did you mean to use 'import Layout from "../components/Layout"' instead?
+src/pages/Membership.tsx(2,10): error TS2614: Module '"../components/Layout"' has no exported member 'Layout'. Did you mean to use 'import Layout from "../components/Layout"' instead?
+src/pages/Register.tsx(4,10): error TS2614: Module '"../components/Layout"' has no exported member 'Layout'. Did you mean to use 'import Layout from "../components/Layout"' instead?
+src/pages/Resources.tsx(3,10): error TS2614: Module '"../components/Layout"' has no exported member 'Layout'. Did you mean to use 'import Layout from "../components/Layout"' instead?
