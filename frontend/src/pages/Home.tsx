@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
+import { PathHoverFooter } from '../components/PathHoverFooter';
 import './Home.css';
 
 // ─────────────────────────────────────────────
@@ -587,54 +588,6 @@ export const Home: React.FC = () => (
     </div>
 
     {/* Footer */}
-    <footer className="path-footer">
-      <div className="path-container">
-        <div className="path-footer-grid">
-          <div className="path-footer-brand">
-            <div className="path-footer-logo">
-              <span style={{ color: '#00B4A6' }}>P</span>
-              <span style={{ color: '#7B2D8E' }}>@</span>
-              <span style={{ color: '#00B4A6' }}>TH</span>
-            </div>
-            <p className="path-footer-tagline">People At The Heart Of Growth</p>
-            <p className="path-footer-desc">L'association de référence pour les professionnels RH au Maroc.</p>
-          </div>
-          <div>
-            <h4 className="path-footer-heading">Contenu</h4>
-            <ul className="path-footer-links">
-              <li><Link to="/actualite-maroc">Actualité RH</Link></li>
-              <li><Link to="/interview-rh">Interviews</Link></li>
-              <li><Link to="/nominations">Nominations</Link></li>
-              <li><Link to="/etudes-et-publications">Etudes</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="path-footer-heading">Plateforme</h4>
-            <ul className="path-footer-links">
-              <li><Link to="/membership">Adhésion</Link></li>
-              <li><Link to="/resources">Ressources</Link></li>
-              <li><Link to="/offres-emploi">Offres d'Emploi</Link></li>
-              <li><Link to="/textes-loi">Textes de Loi</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="path-footer-heading">Contact</h4>
-            <ul className="path-footer-links">
-              <li>📧 contact@path.ma</li>
-              <li>📞 +212 5 22 00 00 00</li>
-              <li>📍 Casablanca, Maroc</li>
-            </ul>
-          </div>
-        </div>
-        <div className="path-footer-bottom">
-          <span>© 2026 PATH — People At The Heart Of Growth. Tous droits réservés.</span>
-          <div className="path-footer-bottom-links">
-            <Link to="/login">Connexion</Link>
-            <Link to="/register">Inscription</Link>
-            <Link to="/admin">Admin</Link>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <PathHoverFooter />
   </div>
 );
