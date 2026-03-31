@@ -21,7 +21,16 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }) {
+      addUtilities({
+        '.size-full': {
+          width: '100%',
+          height: '100%',
+        },
+      });
+    },
+  ],
   // Ensure Tailwind doesn't conflict with existing vanilla CSS
   corePlugins: {
     preflight: false,

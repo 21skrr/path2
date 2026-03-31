@@ -5,6 +5,7 @@ import Lenis from '@studio-freight/lenis';
 import { cn } from '@/lib/utils';
 import { ZoomParallax } from '@/components/ui/zoom-parallax';
 import PricingSection from '@/components/ui/pricing-section-3';
+import { DottedSurface } from '@/components/ui/dotted-surface';
 import { useNavigate } from 'react-router-dom';
 import { NewsTicker, EditorialGrid, SectionHeader, MOCK_ACTUALITE } from './Home';
 import './Home.css';
@@ -109,10 +110,12 @@ export const PathLanding: React.FC = () => {
 
       {/* ══════════ HERO ══════════ */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ marginTop: '-40px' }}>
-        {/* Background */}
+        {/* Gradient Background */}
         <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #1a0a2e 0%, #2d1052 25%, #7B2D8E 50%, #00B4A6 80%, #00d4c8 100%)' }} />
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 30% 40%, rgba(123,45,142,0.4) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(0,180,166,0.3) 0%, transparent 50%)' }} />
-        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cdefs%3E%3Cpattern id=\'g\' width=\'60\' height=\'60\' patternUnits=\'userSpaceOnUse\'%3E%3Cpath d=\'M0 30h60M30 0v60\' stroke=\'%23fff\' stroke-width=\'0.5\' fill=\'none\'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'url(%23g)\'/%3E%3C/svg%3E")' }} />
+        {/* Three.js Dotted Surface */}
+        <DottedSurface dotColor={[0, 180, 166]} />
+        {/* Radial overlay for depth */}
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 30% 40%, rgba(123,45,142,0.4) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(0,180,166,0.3) 0%, transparent 50%)', pointerEvents: 'none' }} />
 
         <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
           <motion.div
