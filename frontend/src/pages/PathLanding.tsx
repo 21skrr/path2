@@ -8,6 +8,7 @@ import PricingSection from '@/components/ui/pricing-section-3';
 import { DottedSurface } from '@/components/ui/dotted-surface';
 import { useNavigate } from 'react-router-dom';
 import { NewsTicker, EditorialGrid, SectionHeader, MOCK_ACTUALITE } from './Home';
+import { PathHoverFooter } from '../components/PathHoverFooter';
 import './Home.css';
 
 const parallaxImages = [
@@ -397,48 +398,7 @@ export const PathLanding: React.FC = () => {
       </section>
 
       {/* ══════════ FOOTER ══════════ */}
-      <footer className="py-16" style={{ background: '#1a0a2e' }}>
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-10 mb-12">
-            <div className="md:col-span-1">
-              <div className="text-2xl font-black mb-3" style={{ color: '#fff' }}>
-                P<span style={{ color: '#2DD4BF' }}>@</span>TH
-              </div>
-              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)' }}>
-                People At The Heart Of Growth — L'association RH leader au Maroc.
-              </p>
-            </div>
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.6)' }}>Navigation</h4>
-              <ul className="space-y-2" style={{ listStyle: 'none', padding: 0 }}>
-                <li><a href="#mission" className="text-sm no-underline" style={{ color: 'rgba(255,255,255,0.45)' }}>Mission</a></li>
-                <li><a href="#services" className="text-sm no-underline" style={{ color: 'rgba(255,255,255,0.45)' }}>Services</a></li>
-                <li><a href="#values" className="text-sm no-underline" style={{ color: 'rgba(255,255,255,0.45)' }}>Valeurs</a></li>
-                <li><Link to="/home" className="text-sm no-underline" style={{ color: 'rgba(255,255,255,0.45)' }}>Plateforme RH</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.6)' }}>Plateforme</h4>
-              <ul className="space-y-2" style={{ listStyle: 'none', padding: 0 }}>
-                <li><Link to="/articles" className="text-sm no-underline" style={{ color: 'rgba(255,255,255,0.45)' }}>Actualité RH</Link></li>
-                <li><Link to="/resources" className="text-sm no-underline" style={{ color: 'rgba(255,255,255,0.45)' }}>Ressources</Link></li>
-                <li><Link to="/membership" className="text-sm no-underline" style={{ color: 'rgba(255,255,255,0.45)' }}>Adhésion</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.6)' }}>Contact</h4>
-              <ul className="space-y-2" style={{ listStyle: 'none', padding: 0 }}>
-                <li className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>📧 contact@path.ma</li>
-                <li className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>📞 +212 5 22 00 00 00</li>
-                <li className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>📍 Casablanca, Maroc</li>
-              </ul>
-            </div>
-          </div>
-          <div className="pt-8 text-center text-xs" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.25)' }}>
-            &copy; 2026 PATH — People At The Heart Of Growth. Tous droits réservés.
-          </div>
-        </div>
-      </footer>
+      <PathHoverFooter />
     </div>
   );
 };
