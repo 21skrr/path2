@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Layout } from '../components/Layout';
 import { ArticleCard } from '../components/ArticleCard';
 import { Article } from '../types';
@@ -24,8 +25,18 @@ const CATEGORIES = [
 ];
 
 export const Articles: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState('ALL');
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const urlCategory = queryParams.get('category');
+  
+  const [activeCategory, setActiveCategory] = useState(urlCategory || 'ALL');
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    if (urlCategory) {
+      setActiveCategory(urlCategory);
+    }
+  }, [urlCategory]);
 
   const filtered = ALL_ARTICLES.filter(article => {
     const matchesCategory = activeCategory === 'ALL' || article.category === activeCategory;
@@ -58,7 +69,7 @@ export const Articles: React.FC = () => {
             />
           </div>
 
-          <div className="filter-tabs">
+          <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '8px' }}>
             {CATEGORIES.map(cat => (
               <button
                 key={cat.key}
@@ -69,6 +80,13 @@ export const Articles: React.FC = () => {
                 {cat.label}
               </button>
             ))}
+            {/* Show dynamic active category if it's not in the default list */}
+            {!CATEGORIES.find(c => c.key === activeCategory) && activeCategory !== 'ALL' && (
+              <button className="filter-tab filter-tab--active">
+                <span className="filter-tab-icon">🏷️</span>
+                {activeCategory}
+              </button>
+            )}
           </div>
         </div>
 

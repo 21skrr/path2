@@ -4,6 +4,10 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
 import { cn } from '@/lib/utils';
 import { ZoomParallax } from '@/components/ui/zoom-parallax';
+import PricingSection from '@/components/ui/pricing-section-3';
+import { useNavigate } from 'react-router-dom';
+import { NewsTicker, EditorialGrid, SectionHeader, MOCK_ACTUALITE } from './Home';
+import './Home.css';
 
 const parallaxImages = [
   { src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1280&h=720&fit=crop&auto=format&q=80', alt: 'Team collaboration meeting' },
@@ -53,6 +57,7 @@ const VALUES = [
 export const PathLanding: React.FC = () => {
   const { scrollYProgress } = useScroll();
   const navOpacity = useTransform(scrollYProgress, [0, 0.05], [0, 1]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -97,8 +102,13 @@ export const PathLanding: React.FC = () => {
         </div>
       </motion.nav>
 
+      {/* ── Magazine Ticker ── */}
+      <div style={{ paddingTop: '64px' }}>
+        <NewsTicker />
+      </div>
+
       {/* ══════════ HERO ══════════ */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ marginTop: '-40px' }}>
         {/* Background */}
         <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #1a0a2e 0%, #2d1052 25%, #7B2D8E 50%, #00B4A6 80%, #00d4c8 100%)' }} />
         <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 30% 40%, rgba(123,45,142,0.4) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(0,180,166,0.3) 0%, transparent 50%)' }} />
@@ -190,8 +200,18 @@ export const PathLanding: React.FC = () => {
         </div>
       </section>
 
+      {/* ══════════ ACTUALITÉS & TENDANCES (DRH MIX) ══════════ */}
+      <section className="py-24" style={{ background: '#fff' }}>
+        <div className="max-w-6xl mx-auto px-6">
+          <SectionHeader title="Actualité RH" href="/articles" subtitle="Les dernières nouveautés et analyses expertes" />
+          <div className="mt-8">
+            <EditorialGrid items={MOCK_ACTUALITE} variant="news" />
+          </div>
+        </div>
+      </section>
+
       {/* ══════════ MISSION ══════════ */}
-      <section id="mission" className="py-24 md:py-32">
+      <section id="mission" className="py-24 md:py-30">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <FadeInSection>
@@ -329,8 +349,13 @@ export const PathLanding: React.FC = () => {
         <ZoomParallax images={parallaxImages} />
       </section>
 
+      {/* ══════════ PRICING ══════════ */}
+      <section id="pricing" className="bg-white py-12 relative z-10">
+        <PricingSection onSelectPlan={(plan) => plan.price !== 0 && navigate('/membership')} />
+      </section>
+
       {/* ══════════ CTA ══════════ */}
-      <section className="py-24 md:py-32">
+      <section className="py-24 md:py-32 bg-white relative z-10">
         <div className="max-w-4xl mx-auto px-6">
           <FadeInSection>
             <div

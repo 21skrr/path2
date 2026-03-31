@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import './Home.css';
@@ -7,7 +7,7 @@ import './Home.css';
 // MOCK DATA
 // ─────────────────────────────────────────────
 
-const TICKER_ITEMS = [
+export const TICKER_ITEMS = [
   'Code du Travail 2026 : 5 amendements clés',
   'IA et transformation RH — rapport WEF 2026',
   'Nomination : Francis JESPERS à la tête d\'Allianz Trade Maroc',
@@ -16,7 +16,7 @@ const TICKER_ITEMS = [
   'Ramadan 2026 : pilotage RH face au temps',
 ];
 
-const FEATURED_ARTICLES = [
+export const FEATURED_ARTICLES = [
   {
     id: 1,
     category: 'ACTUALITÉ RH',
@@ -46,7 +46,7 @@ const FEATURED_ARTICLES = [
   },
 ];
 
-const TRENDING = [
+export const TRENDING = [
   { id: 1, title: 'Code du Travail 2026 : les 5 amendements clés', category: 'JURIDIQUE', href: '/articles/t1' },
   { id: 2, title: 'Forum PATH 2026 : programme et inscriptions', category: 'ÉVÉNEMENT', href: '/articles/t2' },
   { id: 3, title: 'Conformité RGPD Maroc — guide pratique RH', category: 'GUIDE', href: '/articles/t3' },
@@ -54,7 +54,7 @@ const TRENDING = [
   { id: 5, title: 'Wellbeing au travail : enquête nationale 2026', category: 'ETUDE', href: '/articles/t5' },
 ];
 
-const MOCK_SLIDER = [
+export const MOCK_SLIDER = [
   { id: 1, category: 'ACTUALITÉ RH', title: '[LIVRE] Augmenting Human Resource Management with Artificial Intelligence', date: '28 MARS', href: '/articles/1', variant: 'news' as const },
   { id: 2, category: 'ETUDE', title: 'Ce que 81 000 personnes attendent vraiment de l\'IA — nouvelle étude mondiale', date: '27 MARS', href: '/articles/2', variant: 'etude' as const },
   { id: 3, category: 'ACTUALITÉ RH', title: 'IA et cols bleus : Jeff BEZOS cible l\'industrie avec un fonds de 100 milliards $', date: '27 MARS', href: '/articles/3', variant: 'news' as const },
@@ -62,7 +62,20 @@ const MOCK_SLIDER = [
   { id: 5, category: 'INTERVIEW', title: 'Ramadan 2026 : ce que révèle l\'échec du pilotage RH face au temps', date: '25 MARS', href: '/articles/5', variant: 'interview' as const },
 ];
 
-const MOCK_ACTUALITE = [
+export type ArticleItemType = {
+  id: number;
+  category?: string;
+  title: string;
+  date: string;
+  href: string;
+  image: string;
+  featured?: boolean;
+  type?: string;
+  company?: string;
+  location?: string;
+};
+
+export const MOCK_ACTUALITE: ArticleItemType[] = [
   { id: 1, category: 'ACTUALITÉ RH MAROC', title: 'Code du Travail 2026 : Les 5 amendements clés que tout DRH doit connaître', date: '28 MARS', href: '/articles/a1', image: '', featured: true },
   { id: 2, category: 'ACTUALITÉ RH', title: 'IA et cols bleus : Jeff BEZOS cible l\'industrie avec un fonds de 100 milliards $', date: '27 MARS', href: '/articles/a2', image: '' },
   { id: 3, category: 'ACTUALITÉ RH FRANCE', title: 'Réforme des retraites en France : impact sur les stratégies RH des multinationales', date: '26 MARS', href: '/articles/a3', image: '' },
@@ -129,9 +142,9 @@ const PLANS = [
 // SUB-COMPONENTS
 // ─────────────────────────────────────────────
 
-type ImgVariant = 'interview' | 'etude' | 'news' | 'nomination';
+export type ImgVariant = 'interview' | 'etude' | 'news' | 'nomination';
 
-const ImgPlaceholder: React.FC<{ variant?: ImgVariant; large?: boolean }> = ({ variant = 'news', large = false }) => {
+export const ImgPlaceholder: React.FC<{ variant?: ImgVariant; large?: boolean }> = ({ variant = 'news', large = false }) => {
   const gradients: Record<ImgVariant, string> = {
     news:      'linear-gradient(135deg, #1a0a2e 0%, #2d1052 55%, #7B2D8E 100%)',
     interview: 'linear-gradient(135deg, #1a0a2e 0%, #7B2D8E 55%, #5C1F6A 100%)',
@@ -145,12 +158,12 @@ const ImgPlaceholder: React.FC<{ variant?: ImgVariant; large?: boolean }> = ({ v
   );
 };
 
-const CategoryTag: React.FC<{ label: string; variant?: ImgVariant }> = ({ label, variant = 'news' }) => (
+export const CategoryTag: React.FC<{ label: string; variant?: ImgVariant }> = ({ label, variant = 'news' }) => (
   <span className={`path-cat-tag path-cat-${variant}`}>{label}</span>
 );
 
 // Horizontal scrolling news ticker
-const NewsTicker: React.FC = () => {
+export const NewsTicker: React.FC = () => {
   const items = [...TICKER_ITEMS, ...TICKER_ITEMS];
   return (
     <div className="path-ticker">
@@ -169,7 +182,7 @@ const NewsTicker: React.FC = () => {
 };
 
 // Full-width featured hero with main + 2 secondary + trending list
-const FeaturedHero: React.FC = () => (
+export const FeaturedHero: React.FC = () => (
   <section className="path-hero-section">
     <div className="path-container">
       <div className="path-hero-grid">
@@ -230,7 +243,7 @@ const FeaturedHero: React.FC = () => (
 );
 
 // Auto-advancing slider with prev/next arrows
-const NewsSlider: React.FC = () => {
+export const NewsSlider: React.FC = () => {
   const [current, setCurrent] = useState(0);
   const total = MOCK_SLIDER.length;
 
@@ -290,7 +303,7 @@ const NewsSlider: React.FC = () => {
 };
 
 // Section header with left accent line
-const SectionHeader: React.FC<{ title: string; href: string; subtitle?: string }> = ({ title, href, subtitle }) => (
+export const SectionHeader: React.FC<{ title: string; href: string; subtitle?: string }> = ({ title, href, subtitle }) => (
   <div className="path-section-header">
     <div className="path-section-header-left">
       <h2 className="path-section-title">{title}</h2>
@@ -301,7 +314,7 @@ const SectionHeader: React.FC<{ title: string; href: string; subtitle?: string }
 );
 
 // Mixed editorial grid: 1 large + 3 small
-const EditorialGrid: React.FC<{ items: typeof MOCK_ACTUALITE; variant: ImgVariant }> = ({ items, variant }) => (
+export const EditorialGrid: React.FC<{ items: ArticleItemType[]; variant: ImgVariant }> = ({ items, variant }) => (
   <div className="path-editorial-grid">
     {/* Large featured */}
     <Link to={items[0].href} className="path-editorial-main">
