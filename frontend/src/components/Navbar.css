@@ -16,6 +16,16 @@
   --drh-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+.dark {
+  --drh-white: #1f2937;
+  --drh-gray-50: #111827;
+  --drh-gray-100: #374151;
+  --drh-gray-200: #4b5563;
+  --drh-black: #f9fafb;
+  --drh-gray-500: #9ca3af;
+  --drh-navy: #e5e7eb;
+}
+
 /* ── Header wrapper ── */
 .drh-header {
   background: var(--drh-white);
@@ -51,6 +61,7 @@
 .drh-darkmode-toggle {
   background: var(--drh-gray-100);
   border: 1px solid var(--drh-gray-200);
+  color: var(--drh-navy);
   border-radius: 20px;
   width: 44px;
   height: 24px;
@@ -65,6 +76,16 @@
 
 .drh-darkmode-toggle:hover {
   background: var(--drh-gray-200);
+}
+
+.dark .drh-darkmode-toggle {
+  background: var(--drh-navy);
+  border-color: var(--drh-red-dark);
+  color: var(--drh-white);
+}
+
+.dark .drh-darkmode-toggle:hover {
+  background: var(--drh-red-dark);
 }
 
 .drh-social-icons {

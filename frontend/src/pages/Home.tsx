@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { PathHoverFooter } from '../components/PathHoverFooter';
+import { usePosts } from '../contexts/PostsContext';
+import { useAuth } from '../contexts/AuthContext';
+import { Pencil, Play, Flame, Star, Scale } from 'lucide-react';
 import './Home.css';
 
 // ─────────────────────────────────────────────
@@ -163,12 +166,32 @@ export const CategoryTag: React.FC<{ label: string; variant?: ImgVariant }> = ({
   <span className={`path-cat-tag path-cat-${variant}`}>{label}</span>
 );
 
+// WordPress-style "Edit Post" button for admin users
+const AdminEditButton: React.FC<{ postId?: number | string; href?: string }> = ({ postId, href }) => {
+  const { isAdmin } = useAuth();
+  if (!isAdmin) return null;
+  const editUrl = postId ? `/admin?tab=articles&edit=${postId}` : (href ? `/admin?tab=articles` : '/admin');
+  return (
+    <Link
+      to={editUrl}
+      className="wp-admin-edit-btn"
+      onClick={(e) => e.stopPropagation()}
+      title="Modifier cet article"
+      style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+    >
+      <Pencil size={12} /> Edit
+    </Link>
+  );
+};
+
 // Horizontal scrolling news ticker
 export const NewsTicker: React.FC = () => {
   const items = [...TICKER_ITEMS, ...TICKER_ITEMS];
   return (
     <div className="path-ticker">
-      <span className="path-ticker-label">▶ EN DIRECT</span>
+      <span className="path-ticker-label" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+        <Play size={10} fill="currentColor" /> EN DIRECT
+      </span>
       <div className="path-ticker-track">
         <div className="path-ticker-inner">
           {items.map((item, i) => (
@@ -189,42 +212,48 @@ export const FeaturedHero: React.FC = () => (
       <div className="path-hero-grid">
 
         {/* Main featured */}
-        <Link to={FEATURED_ARTICLES[0].href} className="path-hero-main">
-          <ImgPlaceholder variant={FEATURED_ARTICLES[0].variant} large />
-          <div className="path-hero-main-overlay">
-            <div className="path-hero-main-meta">
-              <span className="path-hero-tag">{FEATURED_ARTICLES[0].tag}</span>
-              <CategoryTag label={FEATURED_ARTICLES[0].category} variant={FEATURED_ARTICLES[0].variant} />
+        <div className="path-hero-main-wrapper">
+          <AdminEditButton postId={FEATURED_ARTICLES[0].id} />
+          <Link to={FEATURED_ARTICLES[0].href} className="path-hero-main">
+            <ImgPlaceholder variant={FEATURED_ARTICLES[0].variant} large />
+            <div className="path-hero-main-overlay">
+              <div className="path-hero-main-meta">
+                <span className="path-hero-tag">{FEATURED_ARTICLES[0].tag}</span>
+                <CategoryTag label={FEATURED_ARTICLES[0].category} variant={FEATURED_ARTICLES[0].variant} />
+              </div>
+              <h2 className="path-hero-main-title">{FEATURED_ARTICLES[0].title}</h2>
+              <p className="path-hero-main-excerpt">{FEATURED_ARTICLES[0].excerpt}</p>
+              <div className="path-hero-main-footer">
+                <span className="path-hero-date">{FEATURED_ARTICLES[0].date}</span>
+                <span className="path-hero-read">{FEATURED_ARTICLES[0].readTime} de lecture</span>
+              </div>
             </div>
-            <h2 className="path-hero-main-title">{FEATURED_ARTICLES[0].title}</h2>
-            <p className="path-hero-main-excerpt">{FEATURED_ARTICLES[0].excerpt}</p>
-            <div className="path-hero-main-footer">
-              <span className="path-hero-date">{FEATURED_ARTICLES[0].date}</span>
-              <span className="path-hero-read">{FEATURED_ARTICLES[0].readTime} de lecture</span>
-            </div>
-          </div>
-        </Link>
+          </Link>
+        </div>
 
         {/* Secondary stack */}
         <div className="path-hero-secondary">
           {FEATURED_ARTICLES.slice(1).map((art) => (
-            <Link key={art.id} to={art.href} className="path-hero-secondary-card">
-              <div className="path-hero-sec-img">
-                <ImgPlaceholder variant={art.variant} />
-              </div>
-              <div className="path-hero-sec-content">
-                <CategoryTag label={art.category} variant={art.variant} />
-                <p className="path-hero-sec-title">{art.title}</p>
-                <span className="path-hero-sec-date">{art.date}</span>
-              </div>
-            </Link>
+            <div key={art.id} className="path-hero-sec-wrapper">
+              <AdminEditButton postId={art.id} />
+              <Link to={art.href} className="path-hero-secondary-card">
+                <div className="path-hero-sec-img">
+                  <ImgPlaceholder variant={art.variant} />
+                </div>
+                <div className="path-hero-sec-content">
+                  <CategoryTag label={art.category} variant={art.variant} />
+                  <p className="path-hero-sec-title">{art.title}</p>
+                  <span className="path-hero-sec-date">{art.date}</span>
+                </div>
+              </Link>
+            </div>
           ))}
         </div>
 
         {/* Trending sidebar */}
         <div className="path-trending">
           <div className="path-trending-header">
-            <span className="path-trending-icon">🔥</span>
+            <Flame className="path-trending-icon" size={16} style={{ color: '#f97316' }} />
             <span>Tendances</span>
           </div>
           {TRENDING.map((item, i) => (
@@ -318,29 +347,35 @@ export const SectionHeader: React.FC<{ title: string; href: string; subtitle?: s
 export const EditorialGrid: React.FC<{ items: ArticleItemType[]; variant: ImgVariant }> = ({ items, variant }) => (
   <div className="path-editorial-grid">
     {/* Large featured */}
-    <Link to={items[0].href} className="path-editorial-main">
-      <div className="path-editorial-main-img">
-        <ImgPlaceholder variant={variant} large />
-        <div className="path-editorial-main-overlay">
-          {items[0].category && <CategoryTag label={items[0].category} variant={variant} />}
-          <h3 className="path-editorial-main-title">{items[0].title}</h3>
-          <span className="path-editorial-main-date">{items[0].date}</span>
+    <div className="path-editorial-main-wrapper">
+      <AdminEditButton postId={items[0].id} />
+      <Link to={items[0].href} className="path-editorial-main">
+        <div className="path-editorial-main-img">
+          <ImgPlaceholder variant={variant} large />
+          <div className="path-editorial-main-overlay">
+            {items[0].category && <CategoryTag label={items[0].category} variant={variant} />}
+            <h3 className="path-editorial-main-title">{items[0].title}</h3>
+            <span className="path-editorial-main-date">{items[0].date}</span>
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
     {/* 3 small cards */}
     <div className="path-editorial-small-col">
       {items.slice(1, 4).map(item => (
-        <Link key={item.id} to={item.href} className="path-editorial-small-card">
-          <div className="path-editorial-small-img">
-            <ImgPlaceholder variant={variant} />
-          </div>
-          <div className="path-editorial-small-info">
-            {item.category && <CategoryTag label={item.category} variant={variant} />}
-            <p className="path-editorial-small-title">{item.title}</p>
-            <span className="path-editorial-small-date">{item.date}</span>
-          </div>
-        </Link>
+        <div key={item.id} className="path-editorial-small-wrapper">
+          <AdminEditButton postId={item.id} />
+          <Link to={item.href} className="path-editorial-small-card">
+            <div className="path-editorial-small-img">
+              <ImgPlaceholder variant={variant} />
+            </div>
+            <div className="path-editorial-small-info">
+              {item.category && <CategoryTag label={item.category} variant={variant} />}
+              <p className="path-editorial-small-title">{item.title}</p>
+              <span className="path-editorial-small-date">{item.date}</span>
+            </div>
+          </Link>
+        </div>
       ))}
     </div>
   </div>
@@ -350,16 +385,19 @@ export const EditorialGrid: React.FC<{ items: ArticleItemType[]; variant: ImgVar
 const CardsGrid: React.FC<{ items: { id: number; title: string; date: string; href: string; image: string }[]; variant: ImgVariant }> = ({ items, variant }) => (
   <div className="path-cards-grid">
     {items.map(item => (
-      <Link key={item.id} to={item.href} className="path-article-card">
-        <div className="path-article-card-img">
-          <ImgPlaceholder variant={variant} />
-        </div>
-        <div className="path-article-card-body">
-          <CategoryTag label={variant === 'interview' ? 'INTERVIEW' : variant === 'etude' ? 'ETUDE' : 'ARTICLE'} variant={variant} />
-          <p className="path-article-card-title">{item.title}</p>
-          <span className="path-article-card-date">{item.date}</span>
-        </div>
-      </Link>
+      <div key={item.id} className="path-article-card-wrapper">
+        <AdminEditButton postId={item.id} />
+        <Link to={item.href} className="path-article-card">
+          <div className="path-article-card-img">
+            <ImgPlaceholder variant={variant} />
+          </div>
+          <div className="path-article-card-body">
+            <CategoryTag label={variant === 'interview' ? 'INTERVIEW' : variant === 'etude' ? 'ETUDE' : 'ARTICLE'} variant={variant} />
+            <p className="path-article-card-title">{item.title}</p>
+            <span className="path-article-card-date">{item.date}</span>
+          </div>
+        </Link>
+      </div>
     ))}
   </div>
 );
@@ -477,7 +515,7 @@ const NominationsSidebarWidget: React.FC = () => (
 const MembershipSidebarWidget: React.FC = () => (
   <div className="path-widget path-widget-membership">
     <div className="path-widget-membership-content">
-      <span className="path-widget-membership-icon">★</span>
+      <Star className="path-widget-membership-icon" size={24} fill="currentColor" style={{ color: '#eab308' }} />
       <h3 className="path-widget-membership-title">Passez Premium</h3>
       <p className="path-widget-membership-text">Accédez à tout le contenu exclusif PATH dès maintenant.</p>
       <Link to="/membership" className="path-widget-membership-btn">Voir les offres</Link>
@@ -507,37 +545,76 @@ const OffresSidebarWidget: React.FC = () => (
 // PAGE
 // ─────────────────────────────────────────────
 
-export const Home: React.FC = () => (
-  <div className="path-page">
-    <Navbar />
-    <NewsTicker />
-    <FeaturedHero />
+export const Home: React.FC = () => {
+  const { posts } = usePosts();
 
-    {/* Slider section */}
-    <div className="path-slider-section">
-      <div className="path-container">
-        <div className="path-slider-section-header">
-          <h2 className="path-slider-section-title">Dernières Actualités</h2>
+  const dynamicActualites = posts
+    .filter(p => p.category === 'ACTUALITÉ RH')
+    .map(p => ({
+      id: typeof p.id === 'string' ? parseInt(p.id) || Date.now() : p.id,
+      category: p.category,
+      title: p.title,
+      date: p.date,
+      href: p.href,
+      image: p.image || ''
+    }));
+
+  const dynamicInterviews = posts
+    .filter(p => p.category === 'INTERVIEW')
+    .map(p => ({
+      id: typeof p.id === 'string' ? parseInt(p.id) || Date.now() : p.id,
+      title: p.title,
+      date: p.date,
+      href: p.href,
+      image: p.image || ''
+    }));
+
+  const dynamicEtudes = posts
+    .filter(p => p.category === 'ETUDE')
+    .map(p => ({
+      id: typeof p.id === 'string' ? parseInt(p.id) || Date.now() : p.id,
+      category: p.category,
+      title: p.title,
+      date: p.date,
+      href: p.href,
+      image: p.image || ''
+    }));
+
+  const combinedActualites = [...dynamicActualites, ...MOCK_ACTUALITE];
+  const combinedInterviews = [...dynamicInterviews, ...MOCK_INTERVIEWS];
+  const combinedEtudes = [...dynamicEtudes, ...MOCK_ETUDES];
+
+  return (
+    <div className="path-page">
+      <Navbar />
+      <NewsTicker />
+      <FeaturedHero />
+
+      {/* Slider section */}
+      <div className="path-slider-section">
+        <div className="path-container">
+          <div className="path-slider-section-header">
+            <h2 className="path-slider-section-title">Dernières Actualités</h2>
+          </div>
+          <NewsSlider />
         </div>
-        <NewsSlider />
       </div>
-    </div>
 
-    {/* Main layout */}
-    <div className="path-container path-layout">
-      <main className="path-main">
+      {/* Main layout */}
+      <div className="path-container path-layout">
+        <main className="path-main">
 
-        {/* Actualité RH */}
-        <section className="path-section">
-          <SectionHeader title="Actualité RH" href="/actualite-maroc" subtitle="Les dernières nouvelles RH au Maroc et à l'international" />
-          <EditorialGrid items={MOCK_ACTUALITE} variant="news" />
-        </section>
+          {/* Actualité RH */}
+          <section className="path-section">
+            <SectionHeader title="Actualité RH" href="/actualite-maroc" subtitle="Les dernières nouvelles RH au Maroc et à l'international" />
+            <EditorialGrid items={combinedActualites} variant="news" />
+          </section>
 
-        {/* Interviews */}
-        <section className="path-section">
-          <SectionHeader title="Interviews" href="/interview-rh" subtitle="Les dirigeants RH prennent la parole" />
-          <CardsGrid items={MOCK_INTERVIEWS} variant="interview" />
-        </section>
+          {/* Interviews */}
+          <section className="path-section">
+            <SectionHeader title="Interviews" href="/interview-rh" subtitle="Les dirigeants RH prennent la parole" />
+            <CardsGrid items={combinedInterviews} variant="interview" />
+          </section>
 
         {/* Nominations */}
         <section className="path-section">
@@ -551,7 +628,7 @@ export const Home: React.FC = () => (
         {/* Etudes & Publications */}
         <section className="path-section">
           <SectionHeader title="Etudes & Publications" href="/etudes-et-publications" subtitle="Rapports, études et analyses pour les professionnels RH" />
-          <EditorialGrid items={MOCK_ETUDES} variant="etude" />
+          <EditorialGrid items={combinedEtudes} variant="etude" />
         </section>
 
         {/* Offres d'Emploi */}
@@ -566,7 +643,7 @@ export const Home: React.FC = () => (
           <div className="path-textes-list">
             {MOCK_TEXTES_LOI.map(item => (
               <Link key={item.href} to={item.href} className="path-texte-item">
-                <span className="path-texte-icon">⚖️</span>
+                <Scale className="path-texte-icon" size={18} style={{ color: '#0d9488' }} />
                 <div className="path-texte-content">
                   <p className="path-texte-title">{item.title}</p>
                   <span className="path-texte-date">{item.date}</span>
@@ -590,4 +667,5 @@ export const Home: React.FC = () => (
     {/* Footer */}
     <PathHoverFooter />
   </div>
-);
+  );
+};

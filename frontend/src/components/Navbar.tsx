@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { Sun, Moon } from 'lucide-react';
 import './Navbar.css';
 
 // ── Dropdown data ──────────────────────────────────────────────
@@ -94,10 +96,36 @@ const TEXTES_LOI_LINKS = [
 
 export const Navbar: React.FC = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [darkMode, setDarkMode] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') === 'dark' || 
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    }
+    return false;
+  });
+
+  React.useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [darkMode]);
+  
+  const { user, isAuthenticated, isAdmin, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   const openDropdown = (name: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -123,8 +151,9 @@ export const Navbar: React.FC = () => {
               className="drh-darkmode-toggle"
               onClick={() => setDarkMode(!darkMode)}
               aria-label="Toggle dark mode"
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
-              {darkMode ? '☀️' : '🌙'}
+              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <div className="drh-social-icons">
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="drh-social-icon drh-social-linkedin" aria-label="LinkedIn">
@@ -158,8 +187,8 @@ export const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          {/* Right: Search */}
-          <div className="drh-search-area">
+          {/* Right: Search & Auth */}
+          <div className="drh-search-area" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             {searchOpen ? (
               <form className="drh-search-form" onSubmit={(e) => e.preventDefault()}>
                 <input
@@ -181,6 +210,43 @@ export const Navbar: React.FC = () => {
                 <span>Search...</span>
               </button>
             )}
+
+            {/* Auth UI */}
+            <div className="drh-auth-container" style={{ position: 'relative' }}>
+              {!isAuthenticated ? (
+                <Link to="/login" className="drh-auth-btn" style={{ fontSize: '12px', fontWeight: 'bold', textDecoration: 'none', background: '#7B2D8E', color: 'white', padding: '6px 12px', borderRadius: '4px' }}>
+                  Connexion
+                </Link>
+              ) : (
+                <div 
+                  className="drh-user-avatar" 
+                  style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#00B4A6', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', cursor: 'pointer' }}
+                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                >
+                  {user?.name.charAt(0).toUpperCase() || 'U'}
+                  
+                  {userDropdownOpen && (
+                    <div className="drh-user-dropdown" style={{ position: 'absolute', top: '100%', right: '0', marginTop: '8px', background: 'white', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', padding: '8px 0', minWidth: '150px', zIndex: 100 }}>
+                      <div style={{ padding: '8px 16px', borderBottom: '1px solid #eee', marginBottom: '4px' }}>
+                        <div style={{ fontWeight: 'bold', color: '#1a0a2e', fontSize: '14px' }}>{user?.name}</div>
+                        <div style={{ fontSize: '12px', color: '#666' }}>{isAdmin ? 'Administrateur' : 'Membre ' + user?.membershipStatus}</div>
+                      </div>
+                      {isAdmin && (
+                        <Link to="/admin" style={{ display: 'block', padding: '8px 16px', fontSize: '13px', color: '#1a0a2e', textDecoration: 'none' }} onClick={() => setUserDropdownOpen(false)}>
+                          Tableau de Bord
+                        </Link>
+                      )}
+                      <button 
+                        onClick={handleLogout}
+                        style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 16px', fontSize: '13px', color: '#e53e3e', background: 'none', border: 'none', cursor: 'pointer' }}
+                      >
+                        Déconnexion
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

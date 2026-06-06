@@ -43,6 +43,26 @@ public class PaymentSubmission {
     @Column(name = "review_notes", columnDefinition = "TEXT")
     private String reviewNotes;
 
+    // Manual Getters and Setters to fix compilation
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+    public MembershipPlan getPlan() { return plan; }
+    public void setPlan(MembershipPlan plan) { this.plan = plan; }
+    public String getTransactionReference() { return transactionReference; }
+    public void setTransactionReference(String transactionReference) { this.transactionReference = transactionReference; }
+    public String getReceiptImageUrl() { return receiptImageUrl; }
+    public void setReceiptImageUrl(String receiptImageUrl) { this.receiptImageUrl = receiptImageUrl; }
+    public PaymentStatus getStatus() { return status; }
+    public void setStatus(PaymentStatus status) { this.status = status; }
+    public LocalDateTime getSubmittedAt() { return submittedAt; }
+    public void setSubmittedAt(LocalDateTime submittedAt) { this.submittedAt = submittedAt; }
+    public LocalDateTime getReviewedAt() { return reviewedAt; }
+    public void setReviewedAt(LocalDateTime reviewedAt) { this.reviewedAt = reviewedAt; }
+    public String getReviewNotes() { return reviewNotes; }
+    public void setReviewNotes(String reviewNotes) { this.reviewNotes = reviewNotes; }
+
     public enum PaymentStatus {
         PENDING, APPROVED, REJECTED
     }

@@ -14,8 +14,8 @@ import java.util.List;
 public class ArticleService {
     private final ArticleRepository articleRepository;
 
-    public List<Article> getAllArticles(boolean isPremium) {
-        return articleRepository.findAccessibleArticles(isPremium);
+    public List<Article> getAllArticles(boolean premium) {
+        return articleRepository.findAccessibleArticles(premium);
     }
 
     public List<Article> getArticlesByCategory(Article.ArticleCategory category) {
@@ -39,7 +39,7 @@ public class ArticleService {
         article.setContent(updated.getContent());
         article.setCategory(updated.getCategory());
         article.setImageUrl(updated.getImageUrl());
-        article.setIsPremium(updated.getIsPremium());
+        article.setPremium(updated.getPremium());
         article.setPublishedAt(updated.getPublishedAt());
         return articleRepository.save(article);
     }

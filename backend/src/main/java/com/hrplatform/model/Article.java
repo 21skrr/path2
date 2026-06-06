@@ -30,15 +30,31 @@ public class Article {
     private String imageUrl;
 
     @Column(nullable = false)
-    private Boolean isPremium = false;
+    private Boolean premium = false;
 
     @Column(name = "published_at")
     private LocalDateTime publishedAt;
+
+    // Manual Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    public String getContent() { return content; }
+    public void setContent(String content) { this.content = content; }
+    public ArticleCategory getCategory() { return category; }
+    public void setCategory(ArticleCategory category) { this.category = category; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public Boolean getPremium() { return premium; }
+    public void setPremium(Boolean premium) { this.premium = premium; }
+    public LocalDateTime getPublishedAt() { return publishedAt; }
+    public void setPublishedAt(LocalDateTime publishedAt) { this.publishedAt = publishedAt; }
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public enum ArticleCategory {
-        NEWS, NOMINATION, ARTICLE
+        ACTUALITE_RH, INTERVIEW, ETUDE, NOMINATION
     }
 }

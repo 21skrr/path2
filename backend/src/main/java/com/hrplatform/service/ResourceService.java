@@ -14,8 +14,8 @@ import java.util.List;
 public class ResourceService {
     private final ResourceRepository resourceRepository;
 
-    public List<Resource> getAllResources(boolean isPremium) {
-        return resourceRepository.findAccessibleResources(isPremium);
+    public List<Resource> getAllResources(boolean premium) {
+        return resourceRepository.findAccessibleResources(premium);
     }
 
     public List<Resource> getResourcesByCategory(Resource.ResourceCategory category) {

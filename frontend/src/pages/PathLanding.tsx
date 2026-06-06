@@ -104,13 +104,12 @@ export const PathLanding: React.FC = () => {
         </div>
       </motion.nav>
 
-      {/* ── Magazine Ticker ── */}
-      <div style={{ paddingTop: '64px' }}>
-        <NewsTicker />
-      </div>
-
       {/* ══════════ HERO ══════════ */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ marginTop: '-40px' }}>
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* ── Magazine Ticker (top of hero) ── */}
+        <div className="absolute top-0 left-0 right-0 z-20">
+          <NewsTicker />
+        </div>
         {/* Gradient Background */}
         <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #1a0a2e 0%, #2d1052 25%, #7B2D8E 50%, #00B4A6 80%, #00d4c8 100%)' }} />
         {/* Three.js Dotted Surface */}

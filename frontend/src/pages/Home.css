@@ -31,6 +31,17 @@
   color: var(--text);
 }
 
+.dark .path-page {
+  --navy: #e5e7eb;
+  --white: #1f2937;
+  --bg: #111827;
+  --surface: #1f2937;
+  --border: #374151;
+  --text: #f9fafb;
+  --text-muted: #9ca3af;
+  --text-light: #6b7280;
+}
+
 /* ── Container ── */
 .path-container {
   max-width: 1280px;
@@ -41,7 +52,7 @@
 /* ── News Ticker ── */
 .path-ticker {
   background: var(--navy);
-  color: rgba(255,255,255,0.9);
+  color: var(--white);
   display: flex;
   align-items: center;
   height: 36px;
@@ -1619,4 +1630,67 @@
   .path-footer-grid { grid-template-columns: 1fr; gap: 24px; }
   .path-footer-bottom { flex-direction: column; align-items: flex-start; }
   .path-hero-secondary { grid-template-columns: 1fr; }
+}
+
+/* ── WordPress Admin Edit Button (frontend) ── */
+.wp-admin-edit-btn {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease;
+  pointer-events: auto;
+  white-space: nowrap;
+}
+
+.wp-admin-edit-btn:hover {
+  background: #7B2D8E;
+  color: #fff;
+}
+
+/* Show edit button on parent hover */
+.path-hero-main-wrapper:hover .wp-admin-edit-btn,
+.path-hero-sec-wrapper:hover .wp-admin-edit-btn,
+.path-editorial-main-wrapper:hover .wp-admin-edit-btn,
+.path-editorial-small-wrapper:hover .wp-admin-edit-btn,
+.path-article-card-wrapper:hover .wp-admin-edit-btn {
+  opacity: 1;
+}
+
+/* Wrapper styles — must be positioned relative */
+.path-hero-main-wrapper,
+.path-hero-sec-wrapper,
+.path-editorial-main-wrapper,
+.path-editorial-small-wrapper,
+.path-article-card-wrapper {
+  position: relative;
+}
+
+/* Wrapper should not break grid layouts */
+.path-hero-main-wrapper {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.path-editorial-main-wrapper {
+  display: contents;
+  position: relative;
+}
+
+/* Override display:contents to allow position:relative for the edit button */
+.path-editorial-main-wrapper {
+  display: block;
+  position: relative;
 }

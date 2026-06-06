@@ -20,8 +20,8 @@ public class ArticleController {
 
     @GetMapping
     public ResponseEntity<List<ArticleDTO>> getAllArticles(
-            @RequestParam(defaultValue = "false") boolean isPremium) {
-        List<ArticleDTO> articles = articleService.getAllArticles(isPremium)
+            @RequestParam(defaultValue = "false") boolean premium) {
+        List<ArticleDTO> articles = articleService.getAllArticles(premium)
                 .stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
@@ -30,7 +30,8 @@ public class ArticleController {
 
     @GetMapping("/category/{category}")
     public ResponseEntity<List<ArticleDTO>> getByCategory(@PathVariable String category) {
-        Article.ArticleCategory cat = Article.ArticleCategory.valueOf(category.toUpperCase());
+        String catString = category.toUpperCase().replace(" ", "_").replace("É", "E");
+        Article.ArticleCategory cat = Article.ArticleCategory.valueOf(catString);
         List<ArticleDTO> articles = articleService.getArticlesByCategory(cat)
                 .stream()
                 .map(this::convertToDTO)
@@ -69,7 +70,7 @@ public class ArticleController {
                 article.getContent(),
                 article.getCategory().toString(),
                 article.getImageUrl(),
-                article.getIsPremium(),
+                article.getPremium(),
                 article.getPublishedAt() != null ? article.getPublishedAt().toString() : null
         );
     }

@@ -11,6 +11,6 @@ import java.util.List;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findByCategory(Article.ArticleCategory category);
     
-    @Query("SELECT a FROM Article a WHERE a.isPremium = false OR ?1 = true ORDER BY a.publishedAt DESC")
+    @Query("SELECT a FROM Article a WHERE a.premium = false OR ?1 = true ORDER BY a.publishedAt DESC")
     List<Article> findAccessibleArticles(boolean isPremium);
 }

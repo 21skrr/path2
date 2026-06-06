@@ -11,6 +11,6 @@ import java.util.List;
 public interface ResourceRepository extends JpaRepository<Resource, Long> {
     List<Resource> findByCategory(Resource.ResourceCategory category);
     
-    @Query("SELECT r FROM Resource r WHERE r.isPremium = false OR ?1 = true ORDER BY r.id DESC")
+    @Query("SELECT r FROM Resource r WHERE r.premium = false OR ?1 = true ORDER BY r.id DESC")
     List<Resource> findAccessibleResources(boolean isPremium);
 }

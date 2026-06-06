@@ -25,8 +25,16 @@ public class Resource {
     @Column(nullable = false)
     private ResourceCategory category;
 
-    @Column(nullable = false)
+    @Column(name = "is_premium", nullable = false)
     private Boolean isPremium = false;
+
+    public Boolean getIsPremium() {
+        return isPremium;
+    }
+
+    public void setIsPremium(Boolean isPremium) {
+        this.isPremium = isPremium;
+    }
 
     public enum ResourceCategory {
         LEGAL, TEMPLATE, ONBOARDING

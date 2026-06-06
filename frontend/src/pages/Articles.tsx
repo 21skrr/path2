@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Layout } from '../components/Layout';
 import { ArticleCard } from '../components/ArticleCard';
+import { usePosts } from '../contexts/PostsContext';
 import { Article } from '../types';
 import './Articles.css';
 
@@ -29,6 +30,8 @@ export const Articles: React.FC = () => {
   const queryParams = new URLSearchParams(location.search);
   const urlCategory = queryParams.get('category');
   
+  const { posts } = usePosts();
+  
   const [activeCategory, setActiveCategory] = useState(urlCategory || 'ALL');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -38,7 +41,19 @@ export const Articles: React.FC = () => {
     }
   }, [urlCategory]);
 
-  const filtered = ALL_ARTICLES.filter(article => {
+  const mappedDynamicPosts: Article[] = posts.map(p => ({
+    id: typeof p.id === 'string' ? parseInt(p.id) || Date.now() : p.id,
+    title: p.title,
+    content: p.excerpt,
+    category: p.category === 'ACTUALITÉ RH' ? 'NEWS' : p.category === 'NOMINATION' ? 'NOMINATION' : 'ARTICLE',
+    imageUrl: p.image || '',
+    isPremium: false,
+    publishedAt: new Date().toISOString(), // Mocking current date for dynamic posts
+  }));
+
+  const allCombined = [...mappedDynamicPosts, ...ALL_ARTICLES];
+
+  const filtered = allCombined.filter(article => {
     const matchesCategory = activeCategory === 'ALL' || article.category === activeCategory;
     const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           article.content.toLowerCase().includes(searchQuery.toLowerCase());

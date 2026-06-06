@@ -27,4 +27,16 @@ public class MembershipPlan {
 
     @Column(name = "billing_period")
     private String billingPeriod; // MONTHLY, ANNUAL
+
+    // Manual Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public BigDecimal getPriceMad() { return priceMad; }
+    public void setPriceMad(BigDecimal priceMad) { this.priceMad = priceMad; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    public String getBillingPeriod() { return billingPeriod; }
+    public void setBillingPeriod(String billingPeriod) { this.billingPeriod = billingPeriod; }
 }

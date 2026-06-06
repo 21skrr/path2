@@ -104,7 +104,7 @@ export const Membership: React.FC = () => {
 
   return (
     <Layout>
-      <div className="page-hero">
+      <div className="page-hero membership-hero">
         <div className="container">
           <h1 className="animate-fadeInUp">Nos Forfaits d'Adhésion</h1>
           <p className="page-hero-sub animate-fadeInUp delay-1">
