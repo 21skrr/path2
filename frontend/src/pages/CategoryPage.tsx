@@ -1,43 +1,86 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useMemo } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { Layout } from '../components/Layout';
-import { Article } from '../types';
+import { usePosts } from '../contexts/PostsContext';
 import { ArticleCard } from '../components/ArticleCard';
+import { FeaturedHero, NewsSlider, SectionHeader } from './Home';
 
-const MOCK_ITEMS: Article[] = [
-  { id: 101, title: 'Transformation organisationnelle : enjeux 2026', content: 'Le nouveau paradigme des entreprises marocaines face à la mondialisation.', category: 'NEWS', imageUrl: '', isPremium: false, publishedAt: '2026-03-27T08:00:00' },
-  { id: 102, title: 'Politique de Rémunération et Performance', content: 'Comment aligner la rémunération sur la performance globale tout en préservant l\'équité interne.', category: 'ARTICLE', imageUrl: '', isPremium: true, publishedAt: '2026-03-26T10:00:00' },
-  { id: 103, title: 'Baromètre QVT 2026 : Résultats nationaux', content: 'Une baisse significative du stress est observée chez les collaborateurs en télétravail hybride.', category: 'NEWS', imageUrl: '', isPremium: false, publishedAt: '2026-03-25T14:00:00' },
-  { id: 104, title: 'Nomination : Nouvelle Direction RH chez Attijariwafa Bank', content: 'Un vent de fraîcheur technologique à la tête des ressources humaines.', category: 'NOMINATION', imageUrl: '', isPremium: false, publishedAt: '2026-03-24T09:00:00' },
-  { id: 105, title: 'RSE : L\'employabilité au cœur de l\'impact sociétal', content: 'Les entreprises marocaines intègrent massivement l\'ESG dans leurs KPI.', category: 'NEWS', imageUrl: '', isPremium: true, publishedAt: '2026-03-23T11:00:00' },
-  { id: 106, title: 'Les métiers de demain : que faut-il anticiper ?', content: 'IA, Data et automatisation : les 10 compétences qui feront la différence.', category: 'ARTICLE', imageUrl: '', isPremium: false, publishedAt: '2026-03-22T16:00:00' },
-];
+const CATEGORY_MAP: Record<string, string> = {
+  'actualite-maroc': 'ACTUALITE',
+  'actualite-france': 'ACTUALITE',
+  'interviews': 'INTERVIEW',
+  'nominations': 'NOMINATION',
+  'etudes': 'ETUDE',
+  'annuaire': 'ANNUAIRE',
+  'offres-emploi': 'OFFRE_EMPLOI',
+  'textes-loi': 'TEXTE_LOI',
+  'articles': 'ARTICLE',
+};
+
+const SUBCAT_SLUG_MAP: Record<string, string> = {
+  'actualite-maroc': 'Actualité RH Maroc',
+  'actualite-france': 'Actualité RH France',
+  'code-travail': 'Code du Travail Marocain',
+  'loi-09-08': 'Loi sur la Protection des Données (09-08)',
+  'conventions': 'Conventions Collectives',
+  'decrets': 'Décrets & Arrêtés RH',
+  'securite': 'Textes sur la Sécurité au Travail',
+  'teletravail': 'Réglementation du Télétravail'
+};
 
 export const CategoryPage: React.FC<{ type: string }> = ({ type }) => {
   const location = useLocation();
+  const params = useParams<{ id: string }>();
+  const { posts } = usePosts();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
   const getPageConfig = () => {
+    let baseTitle = '';
+    let sub = '';
+    
     switch (type) {
-      case 'actualite-maroc':
-        return { title: 'Actualité RH Maroc', sub: 'Toute l\'actualité des ressources humaines au Maroc.' };
-      case 'actualite-france':
-        return { title: 'Actualité RH France', sub: 'Suivez les tendances et décisions RH en France.' };
-      case 'nominations':
-        return { title: 'Nominations RH', sub: 'Les derniers mouvements et nominations stratégiques.' };
-      case 'offres-emploi':
-        return { title: 'Offres d\'Emploi', sub: 'Découvrez les meilleures opportunités RH.' };
-      case 'textes-loi':
-        return { title: 'Textes de Loi & Juridique', sub: 'Le cadre réglementaire marocain et ses évolutions.' };
-      default:
-        return { title: 'Dossiers & Ressources', sub: 'Explorez nos publications spécialisées.' };
+      case 'actualite-maroc': baseTitle = 'Actualité RH Maroc'; sub = 'Toute l\'actualité des ressources humaines au Maroc'; break;
+      case 'actualite-france': baseTitle = 'Actualité RH France'; sub = 'Suivez les tendances et décisions RH en France.'; break;
+      case 'interviews': baseTitle = 'Interviews'; sub = 'Des entretiens exclusifs avec les leaders RH.'; break;
+      case 'nominations': baseTitle = 'Nominations RH'; sub = 'Les derniers mouvements et nominations stratégiques.'; break;
+      case 'etudes': baseTitle = 'Etudes & Publications'; sub = 'Des analyses approfondies du marché RH.'; break;
+      case 'annuaire': baseTitle = 'Annuaire'; sub = 'Le répertoire des professionnels RH.'; break;
+      case 'offres-emploi': baseTitle = 'Offres d\'Emploi'; sub = 'Découvrez les meilleures opportunités RH.'; break;
+      case 'textes-loi': baseTitle = 'Textes de Loi & Juridique'; sub = 'Le cadre réglementaire marocain et ses évolutions.'; break;
+      default: baseTitle = 'Dossiers & Ressources'; sub = 'Explorez nos publications spécialisées.'; break;
     }
+
+    const subcatKey = params.id || type;
+    const preciseSubcat = SUBCAT_SLUG_MAP[subcatKey];
+    
+    if (preciseSubcat && type === 'textes-loi') {
+      baseTitle = preciseSubcat;
+    }
+
+    return { title: baseTitle, sub, subcatKey };
   };
 
-  const { title, sub } = getPageConfig();
+  const { title, sub, subcatKey } = getPageConfig();
+  const categoryEnum = CATEGORY_MAP[type];
+  const requiredSubCat = SUBCAT_SLUG_MAP[subcatKey];
+
+  // Filter posts for this specific category and optionally subcategory
+  const categoryPosts = useMemo(() => {
+    return posts.filter(p => {
+      if (p.category !== categoryEnum) return false;
+      if (requiredSubCat && p.subCategory !== requiredSubCat) return false;
+      return true;
+    });
+  }, [posts, categoryEnum, requiredSubCat]);
+
+  const sliderPosts = categoryPosts.filter(p => p.placement === 'SLIDER');
+  const featuredMain = categoryPosts.find(p => p.placement === 'FEATURED_MAIN');
+  const featuredSecondary = categoryPosts.filter(p => p.placement === 'FEATURED_SECONDARY').slice(0, 2);
+  const trendingPosts = categoryPosts.filter(p => p.placement === 'TRENDING').slice(0, 3);
+  const standardPosts = categoryPosts.filter(p => !p.placement || p.placement === 'STANDARD');
 
   return (
     <Layout>
@@ -48,12 +91,31 @@ export const CategoryPage: React.FC<{ type: string }> = ({ type }) => {
         </div>
       </div>
       
+      {sliderPosts.length > 0 && <NewsSlider posts={sliderPosts} />}
+      
+      {(featuredMain || featuredSecondary.length > 0 || trendingPosts.length > 0) && (
+        <FeaturedHero 
+          main={featuredMain} 
+          secondary={featuredSecondary} 
+          trending={trendingPosts} 
+        />
+      )}
+
       <div className="container" style={{ padding: '60px 24px', minHeight: '60vh' }}>
-        <div className="articles-grid">
-          {MOCK_ITEMS.map((item) => (
-            <ArticleCard key={item.id} article={item} />
-          ))}
-        </div>
+        {standardPosts.length > 0 ? (
+          <>
+            <SectionHeader title={`Tous les articles - ${title}`} href="#" />
+            <div className="articles-grid">
+              {standardPosts.map((item) => (
+                <ArticleCard key={item.id} article={item as any} />
+              ))}
+            </div>
+          </>
+        ) : (
+          <div style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
+            Aucun article standard pour le moment.
+          </div>
+        )}
       </div>
     </Layout>
   );

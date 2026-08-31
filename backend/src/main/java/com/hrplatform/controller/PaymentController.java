@@ -4,7 +4,7 @@ import com.hrplatform.dto.PaymentInitiateDTO;
 import com.hrplatform.dto.PaymentSubmissionDTO;
 import com.hrplatform.model.PaymentSubmission;
 import com.hrplatform.service.PaymentSubmissionService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +15,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/payments")
-@RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class PaymentController {
     private final PaymentSubmissionService paymentService;
+
+    @Autowired
+    public PaymentController(PaymentSubmissionService paymentService) {
+        this.paymentService = paymentService;
+    }
 
     @PostMapping("/initiate")
     public ResponseEntity<PaymentInitiateDTO> initiatePayment(

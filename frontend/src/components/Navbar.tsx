@@ -119,7 +119,7 @@ export const Navbar: React.FC = () => {
     }
   }, [darkMode]);
   
-  const { user, isAuthenticated, isAdmin, logout } = useAuth();
+  const { user, isAuthenticated, isAdmin, isSenior, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -229,13 +229,36 @@ export const Navbar: React.FC = () => {
                     <div className="drh-user-dropdown" style={{ position: 'absolute', top: '100%', right: '0', marginTop: '8px', background: 'white', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', padding: '8px 0', minWidth: '150px', zIndex: 100 }}>
                       <div style={{ padding: '8px 16px', borderBottom: '1px solid #eee', marginBottom: '4px' }}>
                         <div style={{ fontWeight: 'bold', color: '#1a0a2e', fontSize: '14px' }}>{user?.name}</div>
-                        <div style={{ fontSize: '12px', color: '#666' }}>{isAdmin ? 'Administrateur' : 'Membre ' + user?.membershipStatus}</div>
+                        <div style={{ fontSize: '12px', color: '#666' }}>
+                          {isAdmin ? 'Administrateur' : (
+                            user?.membershipTier === 'COMMUNITY' ? '🤝 Pack Community' :
+                            user?.membershipTier === 'PROFESSIONAL' ? '🎯 Pack Professionnel' :
+                            user?.membershipTier === 'SENIOR' ? '👑 Pack Senior' :
+                            'Membre Gratuit'
+                          )}
+                        </div>
+                        {user?.referralInfo?.referralCode && (
+                          <div style={{ fontSize: '10px', color: '#00B4A6', fontFamily: 'monospace', marginTop: '4px', fontWeight: '700', letterSpacing: '0.05em' }}>
+                            🔗 {user.referralInfo.referralCode}
+                          </div>
+                        )}
                       </div>
                       {isAdmin && (
                         <Link to="/admin" style={{ display: 'block', padding: '8px 16px', fontSize: '13px', color: '#1a0a2e', textDecoration: 'none' }} onClick={() => setUserDropdownOpen(false)}>
                           Tableau de Bord
                         </Link>
                       )}
+                      {(isSenior && !isAdmin) && (
+                        <Link to="/admin" style={{ display: 'block', padding: '8px 16px', fontSize: '13px', color: '#7B2D8E', textDecoration: 'none', fontWeight: '600' }} onClick={() => setUserDropdownOpen(false)}>
+                          ✍️ Publier du contenu
+                        </Link>
+                      )}
+                      <Link to="/my-account" style={{ display: 'block', padding: '8px 16px', fontSize: '13px', color: '#1a0a2e', textDecoration: 'none' }} onClick={() => setUserDropdownOpen(false)}>
+                        Mon Espace
+                      </Link>
+                      <Link to="/directory" style={{ display: 'block', padding: '8px 16px', fontSize: '13px', color: '#1a0a2e', textDecoration: 'none' }} onClick={() => setUserDropdownOpen(false)}>
+                        Annuaire Membres
+                      </Link>
                       <button 
                         onClick={handleLogout}
                         style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 16px', fontSize: '13px', color: '#e53e3e', background: 'none', border: 'none', cursor: 'pointer' }}
@@ -365,6 +388,13 @@ export const Navbar: React.FC = () => {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Annuaire */}
+          <div className="drh-nav-item">
+            <Link to="/directory" className="drh-nav-link drh-nav-link-plain">
+              Annuaire
+            </Link>
           </div>
 
           {/* Offres d'Emploi — no dropdown */}

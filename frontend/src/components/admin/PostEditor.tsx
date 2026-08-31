@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { usePosts, PostCategory } from '../../contexts/PostsContext';
+import { usePosts, PostCategory, PostPlacement, SUBCATEGORIES_MAP } from '../../contexts/PostsContext';
 import {
   Link2, Image, AlignLeft, AlignCenter, AlignRight,
   List, ListOrdered, Quote, Undo2, Redo2, ChevronDown, Upload, Plus, Save, Eye
 } from 'lucide-react';
 
 const HR_CATEGORIES: { value: PostCategory; label: string }[] = [
-  { value: 'ACTUALITÉ RH', label: 'Actualité RH' },
-  { value: 'INTERVIEW', label: 'Interviews' },
-  { value: 'ETUDE', label: 'Etudes & Publications' },
+  { value: 'ACTUALITE',  label: 'Actualite RH' },
+  { value: 'INTERVIEW',  label: 'Interviews' },
+  { value: 'ETUDE',      label: 'Etudes & Publications' },
   { value: 'NOMINATION', label: 'Nominations' },
+  { value: 'ANNUAIRE', label: 'Annuaire' },
+  { value: 'OFFRE_EMPLOI', label: "Offres d'Emploi" },
+  { value: 'TEXTE_LOI', label: 'Textes de Loi' },
+  { value: 'ARTICLE', label: 'Articles' },
 ];
 
 const ALL_CAT_LABELS = [
-  'Actualité RH', 'Interviews', 'Articles', 'Nominations', 'Etudes', 'Offres d\'Emploi', 'Textes de Loi'
+  'Actualite RH', 'Interviews', 'Etudes & Publications', 'Nominations', 'Annuaire', "Offres d'Emploi", 'Textes de Loi', 'Articles'
 ];
 
 interface PostEditorProps {
@@ -32,7 +36,9 @@ export const PostEditor: React.FC<PostEditorProps> = ({ editId }) => {
   const [title, setTitle] = useState(existingPost?.title || '');
   const [content, setContent] = useState(existingPost?.content || '');
   const [excerpt, setExcerpt] = useState(existingPost?.excerpt || '');
-  const [category, setCategory] = useState<PostCategory>(existingPost?.category || 'ACTUALITÉ RH');
+  const [category, setCategory] = useState<PostCategory>(existingPost?.category || 'ACTUALITE');
+  const [subCategory, setSubCategory] = useState<string>(existingPost?.subCategory || '');
+  const [placement, setPlacement] = useState<PostPlacement>(existingPost?.placement || 'STANDARD');
   const [status, setStatus] = useState<'Published' | 'Draft'>('Published');
   const [visibility, setVisibility] = useState<'Public' | 'Private'>('Public');
   const [publishDate, setPublishDate] = useState(new Date().toISOString().slice(0, 10));
@@ -43,7 +49,7 @@ export const PostEditor: React.FC<PostEditorProps> = ({ editId }) => {
   const [saved, setSaved] = useState(false);
 
   // Accordion panels state
-  const [openPanels, setOpenPanels] = useState(['status', 'categories', 'featured-image', 'excerpt']);
+  const [openPanels, setOpenPanels] = useState(['status', 'categories', 'placement', 'featured-image', 'excerpt']);
 
   const togglePanel = (id: string) => {
     setOpenPanels(prev => prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]);
@@ -57,10 +63,12 @@ export const PostEditor: React.FC<PostEditorProps> = ({ editId }) => {
     if (!title.trim()) { alert('Le titre est requis.'); return; }
     setSaving(true);
     try {
+      // Build publishedAt as a full ISO string from the date picker value
+      const publishedAt = publishDate ? new Date(publishDate).toISOString() : new Date().toISOString();
       if (existingPost) {
-        await updatePost(existingPost.id, { title, content, excerpt, category, image: featuredImage || undefined });
+        await updatePost(existingPost.id, { title, content, excerpt, category, subCategory, placement, image: featuredImage || undefined, publishedAt });
       } else {
-        await addPost({ title, content, excerpt, category, image: featuredImage || undefined });
+        await addPost({ title, content, excerpt, category, subCategory, placement, image: featuredImage || undefined, publishedAt });
       }
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);
@@ -104,7 +112,19 @@ export const PostEditor: React.FC<PostEditorProps> = ({ editId }) => {
           <button className="wp-btn" style={{ gap: 4 }} onClick={() => navigate('/admin/articles')}>
             ← Retour
           </button>
-          <button className="wp-btn" style={{ gap: 4 }}>
+          <button
+            className="wp-btn"
+            style={{ gap: 4 }}
+            onClick={() => {
+              if (existingPost) {
+                window.open(`/articles/${existingPost.id}`, '_blank');
+              } else if (title.trim()) {
+                alert('Enregistrez d\'abord l\'article pour le prévisualiser.');
+              } else {
+                alert('Ajoutez un titre pour prévisualiser l\'article.');
+              }
+            }}
+          >
             <Eye size={13} /> Prévisualiser
           </button>
           <button
@@ -270,14 +290,63 @@ export const PostEditor: React.FC<PostEditorProps> = ({ editId }) => {
                   <p style={{ fontSize: 12, color: '#646970', marginBottom: 6, fontWeight: 600 }}>Type principal :</p>
                   <select
                     value={category}
-                    onChange={e => setCategory(e.target.value as PostCategory)}
+                    onChange={e => {
+                      const newCat = e.target.value as PostCategory;
+                      setCategory(newCat);
+                      setSubCategory('');
+                    }}
                     style={{ width: '100%', height: 30, padding: '0 8px', border: '1px solid #8c8f94', borderRadius: 4, fontSize: 13, fontFamily: 'inherit', color: '#1d2327' }}
                   >
                     {HR_CATEGORIES.map(c => (
                       <option key={c.value} value={c.value}>{c.label}</option>
                     ))}
                   </select>
+                  
+                  {SUBCATEGORIES_MAP[category]?.length > 0 && (
+                    <div style={{ marginTop: 12 }}>
+                      <p style={{ fontSize: 12, color: '#646970', marginBottom: 6, fontWeight: 600 }}>Sous-catégorie :</p>
+                      <select
+                        value={subCategory}
+                        onChange={e => setSubCategory(e.target.value)}
+                        style={{ width: '100%', height: 30, padding: '0 8px', border: '1px solid #8c8f94', borderRadius: 4, fontSize: 13, fontFamily: 'inherit', color: '#1d2327' }}
+                      >
+                        <option value="">Sélectionnez une sous-catégorie</option>
+                        {SUBCATEGORIES_MAP[category].map(sub => (
+                          <option key={sub} value={sub}>{sub}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
                 </div>
+              </div>
+            )}
+          </div>
+
+          {/* ── Placement (Home Page) ── */}
+          <div className="sidebar-panel">
+            <div
+              className={`sidebar-panel-head ${openPanels.includes('placement') ? 'open' : ''}`}
+              onClick={() => togglePanel('placement')}
+            >
+              <h3>Emplacement (Page d'accueil)</h3>
+              <ChevronDown size={14} />
+            </div>
+            {openPanels.includes('placement') && (
+              <div className="sidebar-panel-body">
+                <p style={{ fontSize: 12, color: '#646970', marginBottom: 8 }}>
+                  Choisissez où cet article doit apparaître sur la page d'accueil :
+                </p>
+                <select
+                  value={placement}
+                  onChange={e => setPlacement(e.target.value as PostPlacement)}
+                  style={{ width: '100%', height: 30, padding: '0 8px', border: '1px solid #8c8f94', borderRadius: 4, fontSize: 13, fontFamily: 'inherit', color: '#1d2327' }}
+                >
+                  <option value="STANDARD">Standard (Flux de catégorie)</option>
+                  <option value="SLIDER">Slider principal</option>
+                  <option value="FEATURED_MAIN">À la Une (Article principal)</option>
+                  <option value="FEATURED_SECONDARY">À la Une (Articles secondaires)</option>
+                  <option value="TRENDING">Tendances (Barre latérale)</option>
+                </select>
               </div>
             )}
           </div>

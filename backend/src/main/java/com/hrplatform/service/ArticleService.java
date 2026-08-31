@@ -2,17 +2,21 @@ package com.hrplatform.service;
 
 import com.hrplatform.model.Article;
 import com.hrplatform.repository.ArticleRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ArticleService {
     private final ArticleRepository articleRepository;
+
+    @Autowired
+    public ArticleService(ArticleRepository articleRepository) {
+        this.articleRepository = articleRepository;
+    }
 
     public List<Article> getAllArticles(boolean premium) {
         return articleRepository.findAccessibleArticles(premium);
@@ -39,8 +43,10 @@ public class ArticleService {
         article.setContent(updated.getContent());
         article.setCategory(updated.getCategory());
         article.setImageUrl(updated.getImageUrl());
-        article.setPremium(updated.getPremium());
+        article.setIsPremium(updated.getIsPremium());
         article.setPublishedAt(updated.getPublishedAt());
+        article.setPlacement(updated.getPlacement());
+        article.setSubCategory(updated.getSubCategory());
         return articleRepository.save(article);
     }
 

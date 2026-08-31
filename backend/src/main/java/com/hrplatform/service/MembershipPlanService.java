@@ -2,17 +2,21 @@ package com.hrplatform.service;
 
 import com.hrplatform.model.MembershipPlan;
 import com.hrplatform.repository.MembershipPlanRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MembershipPlanService {
     private final MembershipPlanRepository planRepository;
+
+    @Autowired
+    public MembershipPlanService(MembershipPlanRepository planRepository) {
+        this.planRepository = planRepository;
+    }
 
     public List<MembershipPlan> getAllPlans() {
         return planRepository.findAll();

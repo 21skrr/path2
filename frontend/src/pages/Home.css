@@ -1134,6 +1134,18 @@
   background: linear-gradient(135deg, var(--p), var(--t));
 }
 
+.path-plan-btn-senior {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(217,119,6,0.3);
+}
+
+.path-plan-btn-senior:hover {
+  opacity: 0.9;
+  color: #fff;
+}
+
 /* ── Offres d'Emploi ── */
 .path-offres-grid {
   display: grid;

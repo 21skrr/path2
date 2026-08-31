@@ -164,15 +164,26 @@ export const AuthCard = ({ isLogin = true }: { isLogin?: boolean }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [promoCode, setPromoCode] = useState("");
+  const [accountType, setAccountType] = useState<'INDIVIDUAL' | 'COMPANY'>('INDIVIDUAL');
   const [isHovered, setIsHovered] = useState(false);
   const [error, setError] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
   const { login, register } = useAuth();
   const navigate = useNavigate();
 
+  // Pre-fill promo code from URL
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref');
+    if (ref) setPromoCode(ref.toUpperCase());
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccessMsg('');
     setLoading(true);
 
     try {
@@ -183,9 +194,17 @@ export const AuthCard = ({ isLogin = true }: { isLogin?: boolean }) => {
         else setError("Email ou mot de passe incorrect");
       } else {
         if (!name || !email || !password) { setError("Veuillez remplir tous les champs obligatoires"); return; }
-        const success = await register(name, email, password, "");
-        if (success) navigate("/");
-        else setError("Erreur lors de l'inscription");
+        const result = await register(name, email, password, promoCode || undefined, accountType);
+        if (result.success) {
+          if (result.discountApplied) {
+            setSuccessMsg(`🎉 Code appliqué ! Vous bénéficiez de ${result.discount}% de réduction sur votre premier abonnement.`);
+            setTimeout(() => navigate("/membership"), 2200);
+          } else {
+            navigate("/");
+          }
+        } else {
+          setError("Erreur lors de l'inscription");
+        }
       }
     } catch {
       setError("Une erreur est survenue");
@@ -245,7 +264,8 @@ export const AuthCard = ({ isLogin = true }: { isLogin?: boolean }) => {
               {isLogin ? 'Connectez-vous à votre espace' : 'Rejoignez la communauté P@TH'}
             </p>
 
-            {error && <div className="mb-4 text-red-500 text-sm font-medium">{error}</div>}
+            {error && <div className="mb-4 text-red-500 text-sm font-medium bg-red-50 p-3 rounded-lg">{error}</div>}
+            {successMsg && <div className="mb-4 text-emerald-700 text-sm font-semibold bg-emerald-50 border border-emerald-200 p-3 rounded-lg">{successMsg}</div>}
             
             <form className="space-y-5" onSubmit={handleSubmit}>
               {!isLogin && (
@@ -301,7 +321,56 @@ export const AuthCard = ({ isLogin = true }: { isLogin?: boolean }) => {
                     {isPasswordVisible ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
+                {isLogin && (
+                  <div className="flex justify-end mt-1">
+                    <Link to="/forgot-password" className="text-xs text-[#7B2D8E] font-medium hover:underline">
+                      Mot de passe oublié ?
+                    </Link>
+                  </div>
+                )}
               </div>
+
+              {/* ── Register-only fields ── */}
+              {!isLogin && (
+                <>
+                  {/* Account type */}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Type de compte</label>
+                    <div className="flex gap-3">
+                      {(['INDIVIDUAL', 'COMPANY'] as const).map(type => (
+                        <button
+                          key={type}
+                          type="button"
+                          onClick={() => setAccountType(type)}
+                          className={`flex-1 py-2 px-3 rounded-lg text-sm font-semibold border-2 transition-all ${
+                            accountType === type
+                              ? 'border-[#7B2D8E] bg-purple-50 text-[#7B2D8E]'
+                              : 'border-gray-200 bg-gray-50 text-gray-600'
+                          }`}
+                        >
+                          {type === 'INDIVIDUAL' ? '👤 Particulier' : '🏢 Entreprise'}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Promo / referral code */}
+                  <div>
+                    <label htmlFor="promoCode" className="block text-sm font-semibold text-gray-700 mb-1">
+                      🏷️ Code de parrainage / promo <span className="font-normal text-gray-400">(optionnel)</span>
+                    </label>
+                    <Input
+                      id="promoCode"
+                      type="text"
+                      value={promoCode}
+                      onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                      placeholder="PATH-XXXXXX"
+                      className="bg-gray-50 border-gray-200 placeholder:text-gray-400 text-gray-800 w-full focus:border-[#00B4A6] font-mono tracking-wider"
+                    />
+                    <p className="text-xs text-gray-400 mt-1">Obtenez 10% de réduction sur votre premier abonnement</p>
+                  </div>
+                </>
+              )}
               
               <motion.div 
                 whileHover={{ scale: 1.01 }}

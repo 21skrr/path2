@@ -20,51 +20,7 @@ export const TICKER_ITEMS = [
   'Ramadan 2026 : pilotage RH face au temps',
 ];
 
-export const FEATURED_ARTICLES = [
-  {
-    id: 1,
-    category: 'ACTUALITÉ RH',
-    tag: 'À LA UNE',
-    title: '[LIVRE] Augmenting Human Resource Management with Artificial Intelligence : vers un futur inclusif, durable et responsable',
-    excerpt: 'Une analyse approfondie de l\'impact de l\'IA sur les pratiques RH modernes au Maroc et en Afrique.',
-    date: '28 MARS 2026',
-    readTime: '5 min',
-    href: '/articles/1',
-    variant: 'news' as const,
-  },
-  {
-    id: 2,
-    category: 'ETUDE',
-    title: 'Ce que 81 000 personnes attendent vraiment de l\'IA',
-    date: '27 MARS',
-    href: '/articles/2',
-    variant: 'etude' as const,
-  },
-  {
-    id: 3,
-    category: 'ACTUALITÉ RH',
-    title: 'IA et cols bleus : Jeff BEZOS cible l\'industrie avec un fonds de 100 milliards $',
-    date: '27 MARS',
-    href: '/articles/3',
-    variant: 'news' as const,
-  },
-];
 
-export const TRENDING = [
-  { id: 1, title: 'Code du Travail 2026 : les 5 amendements clés', category: 'JURIDIQUE', href: '/articles/t1' },
-  { id: 2, title: 'Forum PATH 2026 : programme et inscriptions', category: 'ÉVÉNEMENT', href: '/articles/t2' },
-  { id: 3, title: 'Conformité RGPD Maroc — guide pratique RH', category: 'GUIDE', href: '/articles/t3' },
-  { id: 4, title: 'Recrutement digital : les outils IA les plus efficaces', category: 'TECHNO RH', href: '/articles/t4' },
-  { id: 5, title: 'Wellbeing au travail : enquête nationale 2026', category: 'ETUDE', href: '/articles/t5' },
-];
-
-export const MOCK_SLIDER = [
-  { id: 1, category: 'ACTUALITÉ RH', title: '[LIVRE] Augmenting Human Resource Management with Artificial Intelligence', date: '28 MARS', href: '/articles/1', variant: 'news' as const },
-  { id: 2, category: 'ETUDE', title: 'Ce que 81 000 personnes attendent vraiment de l\'IA — nouvelle étude mondiale', date: '27 MARS', href: '/articles/2', variant: 'etude' as const },
-  { id: 3, category: 'ACTUALITÉ RH', title: 'IA et cols bleus : Jeff BEZOS cible l\'industrie avec un fonds de 100 milliards $', date: '27 MARS', href: '/articles/3', variant: 'news' as const },
-  { id: 4, category: 'NOMINATIONS RH', title: '[NOMINATION] Allianz Trade Maroc confie sa direction générale à Francis JESPERS', date: '26 MARS', href: '/articles/4', variant: 'nomination' as const },
-  { id: 5, category: 'INTERVIEW', title: 'Ramadan 2026 : ce que révèle l\'échec du pilotage RH face au temps', date: '25 MARS', href: '/articles/5', variant: 'interview' as const },
-];
 
 export type ArticleItemType = {
   id: number;
@@ -86,28 +42,14 @@ export const MOCK_ACTUALITE: ArticleItemType[] = [
   { id: 4, category: 'ACTUALITÉ RH MAROC', title: 'Télétravail au Maroc : bilan 2025 et perspectives pour les DRH en 2026', date: '25 MARS', href: '/articles/a4', image: '' },
 ];
 
-const MOCK_INTERVIEWS = [
-  { id: 1, title: '[INTERVIEW] « L\'entreprise ne vit jamais hors sol » – Mahja NAIT BARKA, fondatrice de CitizOn', date: 'MARS 2026', href: '/interview/1', image: '' },
-  { id: 2, title: '[INTERVIEW] EDVANTIS : Tawhid CHTIOUI revient sur les 4 Palmes d\'Excellence', date: 'MARS 2026', href: '/interview/2', image: '' },
-  { id: 3, title: '[INTERVIEW] Groupe Omnipar : famille & multinationales. Hanan HAJJI, DRH Groupe', date: 'MARS 2026', href: '/interview/3', image: '' },
-  { id: 4, title: '[INTERVIEW] « L\'Humain n\'est pas une ressource, c\'est la Source » – Jean-Louis FEL, VAKOM', date: 'MARS 2026', href: '/interview/4', image: '' },
-];
-
-const MOCK_NOMINATIONS = [
+export const MOCK_NOMINATIONS = [
   { id: 1, title: '[NOMINATION] Allianz Trade Maroc confie sa direction générale à Francis JESPERS', date: '26 MARS', href: '/nominations/1', image: '' },
   { id: 2, title: '[NOMINATION] Mme. Fatima Zahra El Alaoui nommée DRH chez OCP Group', date: '25 MARS', href: '/nominations/2', image: '' },
   { id: 3, title: '[NOMINATION] M. Youssef Bennani rejoint Bank Al-Maghrib comme DRH', date: '24 MARS', href: '/nominations/3', image: '' },
   { id: 4, title: '[NOMINATION] Dr. Amina Kettani nommée VP People chez Jumia Maroc', date: '23 MARS', href: '/nominations/4', image: '' },
 ];
 
-const MOCK_ETUDES = [
-  { id: 1, title: '[ETUDE] Ce que 81 000 personnes attendent vraiment de l\'IA', date: 'MARS 2026', href: '/etude/1', image: '' },
-  { id: 2, title: '[RAPPORT] Dirigeants vieillissants & équipes rajeunissantes : risque stratégique sous-estimé', date: 'MAI 2025', href: '/etude/2', image: '' },
-  { id: 3, title: '[RAPPORT] IA et transformation des entreprises — WEF–Accenture 2026', date: 'MARS 2026', href: '/etude/3', image: '' },
-  { id: 4, title: '[ETUDE] Ramadan 2026 : l\'échec du pilotage RH face au temps', date: 'MARS 2026', href: '/etude/4', image: '' },
-];
-
-const MOCK_OFFRES = [
+export const MOCK_OFFRES = [
   { id: 1, title: 'Responsable RH & Paie', company: 'Groupe OCP', location: 'Casablanca', date: '28 MARS', href: '/offres/1', type: 'CDI' },
   { id: 2, title: 'HR Business Partner Senior', company: 'Attijariwafa Bank', location: 'Rabat', date: '27 MARS', href: '/offres/2', type: 'CDI' },
   { id: 3, title: 'Chargé(e) de Recrutement', company: 'Maroc Telecom', location: 'Casablanca', date: '26 MARS', href: '/offres/3', type: 'CDD' },
@@ -123,22 +65,25 @@ const MOCK_TEXTES_LOI = [
 
 const PLANS = [
   {
-    id: 0, name: 'Gratuit', price: '0', period: '', tag: null,
-    description: 'Accès de base à l\'actualité RH',
-    features: ['Articles d\'actualité', 'Nominations récentes', 'Ressources de base'],
-    cta: 'Commencer gratuitement', href: '/register',
+    id: 1, name: 'Community', price: '100', period: '/mois', tag: null,
+    description: 'Accès à la communauté WhatsApp et agenda des meetups',
+    features: ['Groupe WhatsApp PATH', 'Agenda des meetups', 'Newsletter mensuelle', 'Annuaire membres'],
+    note: '⚠️ Meetup : 400 dh / participation',
+    cta: 'Rejoindre', href: '/membership',
   },
   {
-    id: 1, name: 'Mensuel', price: '99', period: '/mois', tag: null,
-    description: 'Accès complet pendant un mois',
-    features: ['Tous les articles premium', 'Templates RH', 'Guides juridiques', 'Interviews exclusives', 'Support prioritaire'],
-    cta: 'S\'abonner', href: '/membership',
+    id: 2, name: 'Professionnel', price: '2 500', period: '/mois', tag: 'Recommandé',
+    description: 'Tous meetups inclus + Benchmark RH premium',
+    features: ['Tout le pack Community', ' Tous meetups inclus', 'Benchmark RH', 'Contenus & études exclusives', 'Templates RH', 'Webinaires experts'],
+    note: null,
+    cta: 'Sélectionner', href: '/membership',
   },
   {
-    id: 2, name: 'Annuel', price: '999', period: '/an', tag: 'Recommandé',
-    description: 'Le meilleur rapport qualité-prix',
-    features: ['Tout le plan Mensuel', 'Économisez 189 MAD', 'Accès anticipé', 'Webinaires exclusifs', 'Certificat de formation', 'Support 24/7'],
-    cta: 'Devenir membre', href: '/membership',
+    id: 3, name: 'Senior / Recruteur', price: '4 000', period: '/mois', tag: 'Éditorial',
+    description: 'Droits éditoriaux complets + publication sur la plateforme',
+    features: ['Tout le Pack Pro', 'Publication d\'annonces', 'Articles & contenu', 'BDD RH avancée', 'Profil DRH mis en avant', 'Support 24/7'],
+    note: null,
+    cta: 'Devenir Senior', href: '/membership',
   },
 ];
 
@@ -206,42 +151,44 @@ export const NewsTicker: React.FC = () => {
 };
 
 // Full-width featured hero with main + 2 secondary + trending list
-export const FeaturedHero: React.FC = () => (
+export const FeaturedHero: React.FC<{ main: any, secondary: any[], trending: any[] }> = ({ main, secondary, trending }) => (
   <section className="path-hero-section">
     <div className="path-container">
       <div className="path-hero-grid">
 
         {/* Main featured */}
-        <div className="path-hero-main-wrapper">
-          <AdminEditButton postId={FEATURED_ARTICLES[0].id} />
-          <Link to={FEATURED_ARTICLES[0].href} className="path-hero-main">
-            <ImgPlaceholder variant={FEATURED_ARTICLES[0].variant} large />
-            <div className="path-hero-main-overlay">
-              <div className="path-hero-main-meta">
-                <span className="path-hero-tag">{FEATURED_ARTICLES[0].tag}</span>
-                <CategoryTag label={FEATURED_ARTICLES[0].category} variant={FEATURED_ARTICLES[0].variant} />
+        {main && (
+          <div className="path-hero-main-wrapper">
+            <AdminEditButton postId={main.id} />
+            <Link to={main.href || '#'} className="path-hero-main">
+              <ImgPlaceholder variant={main.category === 'INTERVIEW' ? 'interview' : main.category === 'ETUDE' ? 'etude' : main.category === 'NOMINATION' ? 'nomination' : 'news'} large />
+              <div className="path-hero-main-overlay">
+                <div className="path-hero-main-meta">
+                  {main.tag && <span className="path-hero-tag">{main.tag}</span>}
+                  <CategoryTag label={main.category || 'ACTUALITE'} variant={main.category === 'INTERVIEW' ? 'interview' : main.category === 'ETUDE' ? 'etude' : main.category === 'NOMINATION' ? 'nomination' : 'news'} />
+                </div>
+                <h2 className="path-hero-main-title">{main.title}</h2>
+                <p className="path-hero-main-excerpt">{main.excerpt}</p>
+                <div className="path-hero-main-footer">
+                  <span className="path-hero-date">{main.date}</span>
+                  <span className="path-hero-read">{main.readTime || '5 min de lecture'}</span>
+                </div>
               </div>
-              <h2 className="path-hero-main-title">{FEATURED_ARTICLES[0].title}</h2>
-              <p className="path-hero-main-excerpt">{FEATURED_ARTICLES[0].excerpt}</p>
-              <div className="path-hero-main-footer">
-                <span className="path-hero-date">{FEATURED_ARTICLES[0].date}</span>
-                <span className="path-hero-read">{FEATURED_ARTICLES[0].readTime} de lecture</span>
-              </div>
-            </div>
-          </Link>
-        </div>
+            </Link>
+          </div>
+        )}
 
         {/* Secondary stack */}
         <div className="path-hero-secondary">
-          {FEATURED_ARTICLES.slice(1).map((art) => (
+          {secondary.map((art) => (
             <div key={art.id} className="path-hero-sec-wrapper">
               <AdminEditButton postId={art.id} />
               <Link to={art.href} className="path-hero-secondary-card">
                 <div className="path-hero-sec-img">
-                  <ImgPlaceholder variant={art.variant} />
+                  <ImgPlaceholder variant={art.category === 'INTERVIEW' ? 'interview' : art.category === 'ETUDE' ? 'etude' : art.category === 'NOMINATION' ? 'nomination' : 'news'} />
                 </div>
                 <div className="path-hero-sec-content">
-                  <CategoryTag label={art.category} variant={art.variant} />
+                  <CategoryTag label={art.category || 'ACTUALITE'} variant={art.category === 'INTERVIEW' ? 'interview' : art.category === 'ETUDE' ? 'etude' : art.category === 'NOMINATION' ? 'nomination' : 'news'} />
                   <p className="path-hero-sec-title">{art.title}</p>
                   <span className="path-hero-sec-date">{art.date}</span>
                 </div>
@@ -256,11 +203,11 @@ export const FeaturedHero: React.FC = () => (
             <Flame className="path-trending-icon" size={16} style={{ color: '#f97316' }} />
             <span>Tendances</span>
           </div>
-          {TRENDING.map((item, i) => (
+          {trending.map((item, i) => (
             <Link key={item.id} to={item.href} className="path-trending-item">
               <span className="path-trending-num">{String(i + 1).padStart(2, '0')}</span>
               <div className="path-trending-body">
-                <CategoryTag label={item.category} variant="news" />
+                <CategoryTag label={item.category || 'ACTUALITE'} variant={item.category === 'INTERVIEW' ? 'interview' : item.category === 'ETUDE' ? 'etude' : item.category === 'NOMINATION' ? 'nomination' : 'news'} />
                 <p className="path-trending-title">{item.title}</p>
               </div>
             </Link>
@@ -273,19 +220,22 @@ export const FeaturedHero: React.FC = () => (
 );
 
 // Auto-advancing slider with prev/next arrows
-export const NewsSlider: React.FC = () => {
+export const NewsSlider: React.FC<{ posts: any[] }> = ({ posts }) => {
   const [current, setCurrent] = useState(0);
-  const total = MOCK_SLIDER.length;
+  const total = posts.length;
 
   useEffect(() => {
+    if (total <= 1) return;
     const t = setInterval(() => setCurrent(c => (c + 1) % total), 5000);
     return () => clearInterval(t);
   }, [total]);
 
+  if (!posts || posts.length === 0) return null;
+
   const prev = () => setCurrent(c => (c - 1 + total) % total);
   const next = () => setCurrent(c => (c + 1) % total);
 
-  const item = MOCK_SLIDER[current];
+  const item = posts[current];
 
   return (
     <div className="path-slider">
@@ -296,38 +246,40 @@ export const NewsSlider: React.FC = () => {
 
       <div className="path-slider-body">
         {/* Prev/next */}
-        <button className="path-slider-arrow path-slider-prev" onClick={prev} aria-label="Précédent">‹</button>
+        {total > 1 && <button className="path-slider-arrow path-slider-prev" onClick={prev} aria-label="Précédent">‹</button>}
 
         {/* Main content */}
-        <Link to={item.href} className="path-slider-content">
+        <Link to={item.href || '#'} className="path-slider-content">
           <div className="path-slider-img">
-            <ImgPlaceholder variant={item.variant} large />
+            <ImgPlaceholder variant={item.category === 'INTERVIEW' ? 'interview' : item.category === 'ETUDE' ? 'etude' : item.category === 'NOMINATION' ? 'nomination' : 'news'} large />
           </div>
           <div className="path-slider-info">
-            <CategoryTag label={item.category} variant={item.variant} />
+            <CategoryTag label={item.category || 'ACTUALITE'} variant={item.category === 'INTERVIEW' ? 'interview' : item.category === 'ETUDE' ? 'etude' : item.category === 'NOMINATION' ? 'nomination' : 'news'} />
             <h3 className="path-slider-title">{item.title}</h3>
             <span className="path-slider-date">{item.date}</span>
           </div>
         </Link>
 
-        <button className="path-slider-arrow path-slider-next" onClick={next} aria-label="Suivant">›</button>
+        {total > 1 && <button className="path-slider-arrow path-slider-next" onClick={next} aria-label="Suivant">›</button>}
       </div>
 
       {/* Thumbnails */}
-      <div className="path-slider-thumbs">
-        {MOCK_SLIDER.map((s, i) => (
-          <button
-            key={s.id}
-            className={`path-slider-thumb ${i === current ? 'path-slider-thumb-active' : ''}`}
-            onClick={() => setCurrent(i)}
-          >
-            <div className="path-slider-thumb-img">
-              <ImgPlaceholder variant={s.variant} />
-            </div>
-            <span className="path-slider-thumb-title">{s.title}</span>
-          </button>
-        ))}
-      </div>
+      {total > 1 && (
+        <div className="path-slider-thumbs">
+          {posts.map((s, i) => (
+            <button
+              key={s.id}
+              className={`path-slider-thumb ${i === current ? 'path-slider-thumb-active' : ''}`}
+              onClick={() => setCurrent(i)}
+            >
+              <div className="path-slider-thumb-img">
+                <ImgPlaceholder variant={s.category === 'INTERVIEW' ? 'interview' : s.category === 'ETUDE' ? 'etude' : s.category === 'NOMINATION' ? 'nomination' : 'news'} />
+              </div>
+              <span className="path-slider-thumb-title">{s.title}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
@@ -403,9 +355,9 @@ const CardsGrid: React.FC<{ items: { id: number; title: string; date: string; hr
 );
 
 // Nominations horizontal scroll
-const NominationsRow: React.FC = () => (
+const NominationsRow: React.FC<{ items: any[] }> = ({ items }) => (
   <div className="path-nominations-row">
-    {MOCK_NOMINATIONS.map(item => (
+    {items.map(item => (
       <Link key={item.id} to={item.href} className="path-nom-card">
         <div className="path-nom-card-img">
           <ImgPlaceholder variant="nomination" />
@@ -426,12 +378,12 @@ const MembershipSection: React.FC = () => (
     <div className="path-membership-bg">
       <div className="path-membership-header">
         <span className="path-membership-eyebrow">Rejoignez PATH</span>
-        <h2 className="path-membership-title">Accédez à tout le contenu premium</h2>
-        <p className="path-membership-sub">Templates juridiques, guides exclusifs, interviews de DRH et accès anticipé à toutes les publications.</p>
+        <h2 className="path-membership-title">Choisissez votre pack d'adhésion</h2>
+        <p className="path-membership-sub">De la communauté WhatsApp aux droits éditoriaux complets — trouvez le pack qui correspond à votre ambition RH.</p>
       </div>
       <div className="path-membership-plans">
         {PLANS.map(plan => (
-          <div key={plan.id} className={`path-plan-card ${plan.tag ? 'path-plan-featured' : ''}`}>
+          <div key={plan.id} className={`path-plan-card ${plan.tag === 'Recommandé' ? 'path-plan-featured' : ''}`}>
             {plan.tag && <div className="path-plan-tag">{plan.tag}</div>}
             <div className="path-plan-header">
               <h3 className="path-plan-name">{plan.name}</h3>
@@ -446,7 +398,12 @@ const MembershipSection: React.FC = () => (
                 <li key={i}><span className="path-check">✓</span>{f}</li>
               ))}
             </ul>
-            <Link to={plan.href} className={`path-plan-btn ${plan.tag ? 'path-plan-btn-featured' : ''}`}>
+            {'note' in plan && plan.note && (
+              <p style={{ fontSize: '11px', color: '#78350f', background: '#fef3c7', padding: '8px 12px', borderRadius: '6px', marginBottom: '12px', lineHeight: '1.4' }}>
+                {plan.note}
+              </p>
+            )}
+            <Link to={plan.href} className={`path-plan-btn ${plan.tag === 'Recommandé' ? 'path-plan-btn-featured' : plan.tag === 'Éditorial' ? 'path-plan-btn-senior' : ''}`}>
               {plan.cta}
             </Link>
           </div>
@@ -548,47 +505,39 @@ const OffresSidebarWidget: React.FC = () => (
 export const Home: React.FC = () => {
   const { posts } = usePosts();
 
-  const dynamicActualites = posts
-    .filter(p => p.category === 'ACTUALITÉ RH')
-    .map(p => ({
-      id: typeof p.id === 'string' ? parseInt(p.id) || Date.now() : p.id,
-      category: p.category,
-      title: p.title,
-      date: p.date,
-      href: p.href,
-      image: p.image || ''
-    }));
+  // Categories
+  const dynamicActualites = posts.filter(p => p.category === 'ACTUALITE').map(p => ({
+    id: typeof p.id === 'string' ? parseInt(p.id) || Date.now() : p.id,
+    category: p.category, title: p.title, date: p.date, href: p.href, image: p.image || ''
+  }));
 
-  const dynamicInterviews = posts
-    .filter(p => p.category === 'INTERVIEW')
-    .map(p => ({
-      id: typeof p.id === 'string' ? parseInt(p.id) || Date.now() : p.id,
-      title: p.title,
-      date: p.date,
-      href: p.href,
-      image: p.image || ''
-    }));
+  const dynamicInterviews = posts.filter(p => p.category === 'INTERVIEW').map(p => ({
+    id: typeof p.id === 'string' ? parseInt(p.id) || Date.now() : p.id,
+    title: p.title, date: p.date, href: p.href, image: p.image || ''
+  }));
 
-  const dynamicEtudes = posts
-    .filter(p => p.category === 'ETUDE')
-    .map(p => ({
-      id: typeof p.id === 'string' ? parseInt(p.id) || Date.now() : p.id,
-      category: p.category,
-      title: p.title,
-      date: p.date,
-      href: p.href,
-      image: p.image || ''
-    }));
+  const dynamicEtudes = posts.filter(p => p.category === 'ETUDE').map(p => ({
+    id: typeof p.id === 'string' ? parseInt(p.id) || Date.now() : p.id,
+    category: p.category, title: p.title, date: p.date, href: p.href, image: p.image || ''
+  }));
+  
+  const dynamicNominations = posts.filter(p => p.category === 'NOMINATION').map(p => ({
+    id: typeof p.id === 'string' ? parseInt(p.id) || Date.now() : p.id,
+    category: p.category, title: p.title, date: p.date, href: p.href, image: p.image || ''
+  }));
 
-  const combinedActualites = [...dynamicActualites, ...MOCK_ACTUALITE];
-  const combinedInterviews = [...dynamicInterviews, ...MOCK_INTERVIEWS];
-  const combinedEtudes = [...dynamicEtudes, ...MOCK_ETUDES];
+  // Placements
+  const sliderPosts = posts.filter(p => p.placement === 'SLIDER');
+  // Fallback to first article if no featured main is selected
+  const featuredMain = posts.find(p => p.placement === 'FEATURED_MAIN') || posts[0];
+  const featuredSecondary = posts.filter(p => p.placement === 'FEATURED_SECONDARY');
+  const trendingPosts = posts.filter(p => p.placement === 'TRENDING');
 
   return (
     <div className="path-page">
       <Navbar />
       <NewsTicker />
-      <FeaturedHero />
+      <FeaturedHero main={featuredMain} secondary={featuredSecondary} trending={trendingPosts} />
 
       {/* Slider section */}
       <div className="path-slider-section">
@@ -596,7 +545,7 @@ export const Home: React.FC = () => {
           <div className="path-slider-section-header">
             <h2 className="path-slider-section-title">Dernières Actualités</h2>
           </div>
-          <NewsSlider />
+          {sliderPosts.length > 0 && <NewsSlider posts={sliderPosts} />}
         </div>
       </div>
 
@@ -605,31 +554,39 @@ export const Home: React.FC = () => {
         <main className="path-main">
 
           {/* Actualité RH */}
-          <section className="path-section">
-            <SectionHeader title="Actualité RH" href="/actualite-maroc" subtitle="Les dernières nouvelles RH au Maroc et à l'international" />
-            <EditorialGrid items={combinedActualites} variant="news" />
-          </section>
+          {dynamicActualites.length > 0 && (
+            <section className="path-section">
+              <SectionHeader title="Actualité RH" href="/actualite-maroc" subtitle="Les dernières nouvelles RH au Maroc et à l'international" />
+              <EditorialGrid items={dynamicActualites} variant="news" />
+            </section>
+          )}
 
           {/* Interviews */}
-          <section className="path-section">
-            <SectionHeader title="Interviews" href="/interview-rh" subtitle="Les dirigeants RH prennent la parole" />
-            <CardsGrid items={combinedInterviews} variant="interview" />
-          </section>
+          {dynamicInterviews.length > 0 && (
+            <section className="path-section">
+              <SectionHeader title="Interviews" href="/interview-rh" subtitle="Les dirigeants RH prennent la parole" />
+              <CardsGrid items={dynamicInterviews} variant="interview" />
+            </section>
+          )}
 
         {/* Nominations */}
-        <section className="path-section">
-          <SectionHeader title="Nominations RH" href="/nominations" subtitle="Les dernières nominations dans le monde RH" />
-          <NominationsRow />
-        </section>
+        {dynamicNominations.length > 0 && (
+          <section className="path-section">
+            <SectionHeader title="Nominations RH" href="/nominations" subtitle="Les dernières nominations dans le monde RH" />
+            <NominationsRow items={dynamicNominations} />
+          </section>
+        )}
 
         {/* Membership inline section */}
         <MembershipSection />
 
         {/* Etudes & Publications */}
-        <section className="path-section">
-          <SectionHeader title="Etudes & Publications" href="/etudes-et-publications" subtitle="Rapports, études et analyses pour les professionnels RH" />
-          <EditorialGrid items={combinedEtudes} variant="etude" />
-        </section>
+        {dynamicEtudes.length > 0 && (
+          <section className="path-section">
+            <SectionHeader title="Etudes & Publications" href="/etudes-et-publications" subtitle="Rapports, études et analyses pour les professionnels RH" />
+            <EditorialGrid items={dynamicEtudes} variant="etude" />
+          </section>
+        )}
 
         {/* Offres d'Emploi */}
         <section className="path-section">

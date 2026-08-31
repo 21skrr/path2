@@ -3,7 +3,7 @@ package com.hrplatform.controller;
 import com.hrplatform.model.Resource;
 import com.hrplatform.service.ResourceService;
 import com.hrplatform.dto.ResourceDTO;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/resources")
-@RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class ResourceController {
     private final ResourceService resourceService;
+
+    @Autowired
+    public ResourceController(ResourceService resourceService) {
+        this.resourceService = resourceService;
+    }
 
     @GetMapping
     public ResponseEntity<List<ResourceDTO>> getAllResources(

@@ -1,16 +1,54 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { fetchArticles, apiClient } from '../services/api';
 
-export type PostCategory = 'ACTUALITÉ RH' | 'INTERVIEW' | 'ETUDE' | 'NOMINATION';
+export type PostCategory = 'ACTUALITE' | 'INTERVIEW' | 'ETUDE' | 'NOMINATION' | 'ANNUAIRE' | 'OFFRE_EMPLOI' | 'TEXTE_LOI' | 'ARTICLE';
+export type PostPlacement = 'SLIDER' | 'FEATURED_MAIN' | 'FEATURED_SECONDARY' | 'TRENDING' | 'STANDARD';
+
+export const SUBCATEGORIES_MAP: Record<PostCategory, string[]> = {
+  ACTUALITE: ['Actualité RH Maroc', 'Actualité RH France'],
+  ARTICLE: [
+    'Marque Employeur & Communication RH',
+    'Évaluations & Tests RH',
+    'Recrutement & Onboarding',
+    'Formation & Développement RH',
+    'Rémunération & Avantages Sociaux',
+    'Qualité de Vie au Travail (QVT)',
+    'RSE & Développement Durable',
+    'Santé et Sécurité au Travail',
+    'Diversité & Inclusion',
+    'Management & Leadership',
+    'Stratégie RH',
+    'Organisation RH',
+    'Technologie RH & IA',
+    'Dialogue Social & Politiques RH',
+    'Lifestyle RH'
+  ],
+  TEXTE_LOI: [
+    'Code du Travail Marocain',
+    'Loi sur la Protection des Données (09-08)',
+    'Conventions Collectives',
+    'Décrets & Arrêtés RH',
+    'Textes sur la Sécurité au Travail',
+    'Réglementation du Télétravail'
+  ],
+  INTERVIEW: [],
+  ETUDE: [],
+  NOMINATION: [],
+  ANNUAIRE: [],
+  OFFRE_EMPLOI: []
+};
 
 export interface Post {
   id: number | string;
   category: PostCategory;
+  subCategory?: string;
+  placement?: PostPlacement;
   tag?: string;
   title: string;
   excerpt: string;
   content?: string;
   date: string;
+  publishedAt?: string;  // ISO string — kept in sync with the backend
   readTime: string;
   image?: string;
   href: string;
@@ -32,7 +70,8 @@ const PostsContext = createContext<PostsContextType | undefined>(undefined);
 const INITIAL_POSTS: Post[] = [
   {
     id: 'seed-1',
-    category: 'ACTUALITÉ RH',
+    category: 'ACTUALITE',
+    placement: 'FEATURED_MAIN',
     tag: 'À LA UNE',
     title: '[LIVRE] Augmenting Human Resource Management with Artificial Intelligence',
     excerpt: 'Une analyse approfondie de l\'impact de l\'IA sur les pratiques RH modernes au Maroc et en Afrique.',
@@ -56,10 +95,12 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       // Transform Backend ArticleDTO to Frontend Post model
       const transformedPosts: Post[] = response.data.map((art: any) => ({
         id: art.id,
-        category: art.category as PostCategory,
+        category: (art.category || 'ACTUALITE') as PostCategory,
+        placement: (art.placement || 'STANDARD') as PostPlacement,
         title: art.title,
         excerpt: art.content ? art.content.substring(0, 150) + '...' : '',
         content: art.content,
+        publishedAt: art.publishedAt,
         date: art.publishedAt ? new Date(art.publishedAt).toLocaleDateString('fr-FR', {
           day: 'numeric', month: 'short', year: 'numeric'
         }).toUpperCase() : 'DATE INCONNUE',
@@ -89,8 +130,10 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         title: postData.title,
         content: postData.content,
         category: postData.category,
+        placement: postData.placement || 'STANDARD',
         imageUrl: postData.image,
-        isPremium: false
+        isPremium: false,
+        publishedAt: postData.publishedAt ?? new Date().toISOString(),
       });
       loadPosts();
     } catch (err) {
@@ -110,7 +153,15 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const updatePost = async (id: number | string, data: Partial<Post>) => {
     try {
-      await apiClient.put(`/articles/${id}`, data);
+      await apiClient.put(`/articles/${id}`, {
+        title: data.title,
+        content: data.content,
+        category: data.category,
+        placement: data.placement || 'STANDARD',
+        imageUrl: data.image,
+        isPremium: false,
+        publishedAt: data.publishedAt ?? new Date().toISOString(),
+      });
       loadPosts();
     } catch (err) {
       console.error('Failed to update post', err);

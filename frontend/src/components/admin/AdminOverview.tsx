@@ -1,27 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { usePosts } from '../../contexts/PostsContext';
-import { Users, Star, DollarSign, Clock, FileText, TrendingUp, ArrowRight, Plus } from 'lucide-react';
-
-const STATS = [
-  { label: 'Utilisateurs', value: '842', icon: <Users size={20} />, color: '#2563eb', bg: '#dbeafe' },
-  { label: 'Membres Premium', value: '156', icon: <Star size={20} />, color: '#b45309', bg: '#fef3c7' },
-  { label: 'Revenus (MAD)', value: '48,200', icon: <DollarSign size={20} />, color: '#059669', bg: '#d1fae5' },
-  { label: 'En Attente', value: '3', icon: <Clock size={20} />, color: '#d97706', bg: '#fef3c7' },
-];
-
-const RECENT_ACTIVITY = [
-  { text: 'Nouvel utilisateur inscrit: Sara Benmoussa', color: '#7B2D8E', time: 'il y a 5 min' },
-  { text: 'Article publié: L\'IA et le recrutement en 2026', color: '#00B4A6', time: 'il y a 23 min' },
-  { text: 'Paiement reçu: Karim El Mansouri (999 MAD)', color: '#059669', time: 'il y a 1h' },
-  { text: 'Nouveau commentaire soumis pour validation', color: '#d97706', time: 'il y a 2h' },
-  { text: 'Mise à jour de profil: Mohamed Alaoui', color: '#2563eb', time: 'il y a 3h' },
-];
+import { useUsers } from '../../contexts/UsersContext';
+import { Users, Star, FileText, TrendingUp, ArrowRight, Plus } from 'lucide-react';
 
 export const AdminOverview: React.FC = () => {
   const { posts } = usePosts();
+  const { users } = useUsers();
 
   const recentPosts = posts.slice(0, 5);
+
+  const STATS = [
+    { label: 'Utilisateurs', value: users.length.toString(), icon: <Users size={20} />, color: '#2563eb', bg: '#dbeafe' },
+    { label: 'Membres Premium', value: users.filter(u => u.membershipStatus === 'PREMIUM').length.toString(), icon: <Star size={20} />, color: '#b45309', bg: '#fef3c7' },
+    { label: 'Articles', value: posts.length.toString(), icon: <FileText size={20} />, color: '#7B2D8E', bg: '#f8f4fb' },
+  ];
 
   return (
     <div>
@@ -95,16 +88,16 @@ export const AdminOverview: React.FC = () => {
             <div className="wp-panel-head">
               <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14 }}>
                 <TrendingUp size={15} style={{ color: '#00B4A6' }} />
-                Activité Récente
+                Nouveaux Utilisateurs
               </h2>
             </div>
             <div style={{ padding: '4px 16px 12px' }}>
-              {RECENT_ACTIVITY.map((item, i) => (
-                <div key={i} className="admin-activity-item" style={{ alignItems: 'flex-start' }}>
-                  <div className="admin-activity-dot" style={{ background: item.color, marginTop: 7 }} />
+              {users.slice(0, 5).map((user) => (
+                <div key={user.id} className="admin-activity-item" style={{ alignItems: 'flex-start' }}>
+                  <div className="admin-activity-dot" style={{ background: '#2563eb', marginTop: 7 }} />
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontSize: 13.5, color: '#1d2327', margin: 0, lineHeight: 1.4 }}>{item.text}</p>
-                    <p style={{ fontSize: 11.5, color: '#8c8f94', margin: '3px 0 0' }}>{item.time}</p>
+                    <p style={{ fontSize: 13.5, color: '#1d2327', margin: 0, lineHeight: 1.4 }}>{user.name} ({user.email})</p>
+                    <p style={{ fontSize: 11.5, color: '#8c8f94', margin: '3px 0 0' }}>{new Date(user.createdAt).toLocaleDateString('fr-FR')}</p>
                   </div>
                 </div>
               ))}
@@ -148,10 +141,10 @@ export const AdminOverview: React.FC = () => {
             <div style={{ padding: '12px 16px' }}>
               {[
                 { label: 'Total articles', value: posts.length, color: '#7B2D8E' },
-                { label: 'Actualité RH', value: posts.filter(p => p.category === 'ACTUALITÉ RH').length, color: '#2563eb' },
-                { label: 'Interviews', value: posts.filter(p => p.category === 'INTERVIEW').length, color: '#00B4A6' },
-                { label: 'Nominations', value: posts.filter(p => p.category === 'NOMINATION').length, color: '#d97706' },
-                { label: 'Etudes', value: posts.filter(p => p.category === 'ETUDE').length, color: '#059669' },
+                { label: 'Actualite RH',   value: posts.filter(p => p.category === 'ACTUALITE').length, color: '#2563eb' },
+                { label: 'Interviews',     value: posts.filter(p => p.category === 'INTERVIEW').length, color: '#00B4A6' },
+                { label: 'Nominations',    value: posts.filter(p => p.category === 'NOMINATION').length, color: '#d97706' },
+                { label: 'Etudes',         value: posts.filter(p => p.category === 'ETUDE').length, color: '#059669' },
               ].map(stat => (
                 <div key={stat.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #f0f0f1' }}>
                   <span style={{ fontSize: 13.5, color: '#1d2327' }}>{stat.label}</span>

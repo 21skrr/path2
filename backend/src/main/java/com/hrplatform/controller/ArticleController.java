@@ -3,7 +3,7 @@ package com.hrplatform.controller;
 import com.hrplatform.model.Article;
 import com.hrplatform.service.ArticleService;
 import com.hrplatform.dto.ArticleDTO;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/articles")
-@RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class ArticleController {
     private final ArticleService articleService;
+
+    @Autowired
+    public ArticleController(ArticleService articleService) {
+        this.articleService = articleService;
+    }
 
     @GetMapping
     public ResponseEntity<List<ArticleDTO>> getAllArticles(
@@ -68,10 +71,12 @@ public class ArticleController {
                 article.getId(),
                 article.getTitle(),
                 article.getContent(),
-                article.getCategory().toString(),
+                article.getCategory() != null ? article.getCategory().toString() : "ACTUALITE",
                 article.getImageUrl(),
-                article.getPremium(),
-                article.getPublishedAt() != null ? article.getPublishedAt().toString() : null
+                article.getIsPremium() != null ? article.getIsPremium() : false,
+                article.getPublishedAt() != null ? article.getPublishedAt().toString() : null,
+                article.getPlacement() != null ? article.getPlacement().toString() : "STANDARD",
+                article.getSubCategory()
         );
     }
 }

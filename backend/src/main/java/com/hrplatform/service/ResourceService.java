@@ -2,17 +2,21 @@ package com.hrplatform.service;
 
 import com.hrplatform.model.Resource;
 import com.hrplatform.repository.ResourceRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ResourceService {
     private final ResourceRepository resourceRepository;
+
+    @Autowired
+    public ResourceService(ResourceRepository resourceRepository) {
+        this.resourceRepository = resourceRepository;
+    }
 
     public List<Resource> getAllResources(boolean premium) {
         return resourceRepository.findAccessibleResources(premium);

@@ -3,7 +3,7 @@ package com.hrplatform.controller;
 import com.hrplatform.model.MembershipPlan;
 import com.hrplatform.service.MembershipPlanService;
 import com.hrplatform.dto.MembershipPlanDTO;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/plans")
-@RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class MembershipPlanController {
     private final MembershipPlanService planService;
+
+    @Autowired
+    public MembershipPlanController(MembershipPlanService planService) {
+        this.planService = planService;
+    }
 
     @GetMapping
     public ResponseEntity<List<MembershipPlanDTO>> getAllPlans() {

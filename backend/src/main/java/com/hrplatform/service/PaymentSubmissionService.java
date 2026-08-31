@@ -7,7 +7,7 @@ import com.hrplatform.repository.PaymentSubmissionRepository;
 import com.hrplatform.repository.UserRepository;
 import com.hrplatform.repository.MembershipPlanRepository;
 import com.hrplatform.dto.PaymentInitiateDTO;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +16,20 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
 public class PaymentSubmissionService {
     private final PaymentSubmissionRepository paymentRepository;
     private final UserRepository userRepository;
     private final MembershipPlanRepository planRepository;
+
+    @Autowired
+    public PaymentSubmissionService(PaymentSubmissionRepository paymentRepository,
+                                     UserRepository userRepository,
+                                     MembershipPlanRepository planRepository) {
+        this.paymentRepository = paymentRepository;
+        this.userRepository = userRepository;
+        this.planRepository = planRepository;
+    }
 
     public PaymentInitiateDTO initiatePayment(Long userId, Long planId) {
         User user = userRepository.findById(userId)
@@ -30,7 +38,7 @@ public class PaymentSubmissionService {
                 .orElseThrow(() -> new RuntimeException("Plan not found"));
 
         String transactionRef = generateTransactionReference();
-        
+
         PaymentSubmission submission = new PaymentSubmission();
         submission.setUser(user);
         submission.setPlan(plan);
@@ -43,7 +51,7 @@ public class PaymentSubmissionService {
         return new PaymentInitiateDTO(
                 planId,
                 transactionRef,
-                "RIB: XXXXX-XXXXX-XXXXX (Contact admin for full RIB details)"
+                "RIB: Contactez admin@hrplatform.ma pour les coordonnées bancaires complètes"
         );
     }
 
@@ -95,7 +103,7 @@ public class PaymentSubmissionService {
     }
 
     private String generateTransactionReference() {
-        return String.format("HR%s-%s", 
+        return String.format("HR%s-%s",
                 LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd")),
                 UUID.randomUUID().toString().substring(0, 8).toUpperCase());
     }

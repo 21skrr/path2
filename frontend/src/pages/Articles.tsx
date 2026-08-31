@@ -7,22 +7,23 @@ import { Article } from '../types';
 import './Articles.css';
 
 const ALL_ARTICLES: Article[] = [
-  { id: 1, title: 'Code du Travail 2026 : Les 5 amendements clés que tout DRH doit connaître', content: 'Le nouveau Code du Travail marocain apporte des changements significatifs en matière de télétravail, congés parentaux et contrats à durée déterminée. Analyse détaillée des impacts pour les professionnels RH.', category: 'NEWS', imageUrl: '', isPremium: false, publishedAt: '2026-03-26T08:00:00' },
-  { id: 2, title: 'Nomination: Mme. Fatima Zahra El Alaoui nommée DRH chez OCP Group', content: 'Mme. Fatima Zahra El Alaoui a été nommée Directrice des Ressources Humaines du groupe OCP, le leader mondial des phosphates. Forte de 15 ans d\'expérience dans le management stratégique des talents.', category: 'NOMINATION', imageUrl: '', isPremium: false, publishedAt: '2026-03-25T10:00:00' },
-  { id: 3, title: 'Interview exclusive : Stratégie RH de Maroc Telecom pour 2026', content: 'Dans cette interview exclusive, le DRH de Maroc Telecom partage sa vision pour la transformation digitale des processus RH et le développement des compétences numériques au sein de l\'entreprise.', category: 'ARTICLE', imageUrl: '', isPremium: true, publishedAt: '2026-03-25T16:00:00' },
-  { id: 4, title: 'Étude: Le marché de l\'emploi au Maroc — tendances et prévisions', content: 'Une nouvelle étude révèle les tendances majeures du marché de l\'emploi au Maroc pour 2026. Les secteurs IT, fintech et énergie renouvelable dominent la création d\'emplois dans le royaume.', category: 'NEWS', imageUrl: '', isPremium: false, publishedAt: '2026-03-24T12:00:00' },
-  { id: 5, title: 'Nomination: M. Youssef Bennani rejoint Bank Al-Maghrib comme DRH', content: 'M. Youssef Bennani prend la tête de la Direction des Ressources Humaines de Bank Al-Maghrib. Il apporte une vision innovante avec un focus sur la transformation digitale RH bancaire.', category: 'NOMINATION', imageUrl: '', isPremium: false, publishedAt: '2026-03-24T14:00:00' },
-  { id: 6, title: 'Conformité RGPD au Maroc : Guide pratique pour les RH', content: 'La protection des données personnelles des employés est devenue une priorité. Ce guide pratique aide les professionnels RH à se conformer à la loi 09-08 et aux standards internationaux.', category: 'NEWS', imageUrl: '', isPremium: true, publishedAt: '2026-03-23T11:00:00' },
-  { id: 7, title: 'Nomination: Dr. Amina Kettani nommée VP People chez Jumia Maroc', content: 'Dr. Amina Kettani rejoint Jumia Maroc en tant que Vice-Présidente People & Culture. Son expertise en psychologie organisationnelle apportera une nouvelle dimension au management des talents.', category: 'NOMINATION', imageUrl: '', isPremium: true, publishedAt: '2026-03-23T09:00:00' },
-  { id: 8, title: 'Comment les entreprises marocaines adoptent l\'IA dans les RH', content: 'L\'intelligence artificielle transforme les processus RH au Maroc. Du recrutement prédictif à l\'analyse des performances, découvrez les outils et stratégies adoptés par les leaders du marché.', category: 'ARTICLE', imageUrl: '', isPremium: false, publishedAt: '2026-03-22T15:00:00' },
-  { id: 9, title: 'Télétravail au Maroc : Cadre juridique et bonnes pratiques RH', content: 'Avec l\'adoption croissante du télétravail, les DRH doivent adapter leurs politiques. Analyse du cadre juridique marocain et recommandations pratiques pour une mise en œuvre réussie.', category: 'NEWS', imageUrl: '', isPremium: false, publishedAt: '2026-03-21T10:00:00' },
+  { id: 1, title: 'Code du Travail 2026 : Les 5 amendements cles que tout DRH doit connaitre', content: 'Le nouveau Code du Travail marocain apporte des changements significatifs en matiere de teletravail, conges parentaux et contrats a duree determinee.', category: 'ACTUALITE', imageUrl: '', isPremium: false, publishedAt: '2026-03-26T08:00:00' },
+  { id: 2, title: 'Nomination: Mme. Fatima Zahra El Alaoui nommee DRH chez OCP Group', content: 'Mme. Fatima Zahra El Alaoui a ete nommee Directrice des Ressources Humaines du groupe OCP.', category: 'NOMINATION', imageUrl: '', isPremium: false, publishedAt: '2026-03-25T10:00:00' },
+  { id: 3, title: 'Interview exclusive : Strategie RH de Maroc Telecom pour 2026', content: 'Dans cette interview exclusive, le DRH de Maroc Telecom partage sa vision pour la transformation digitale des processus RH.', category: 'INTERVIEW', imageUrl: '', isPremium: true, publishedAt: '2026-03-25T16:00:00' },
+  { id: 4, title: 'Etude: Le marche de emploi au Maroc — tendances et previsions', content: 'Une nouvelle etude revele les tendances majeures du marche de emploi au Maroc pour 2026.', category: 'ETUDE', imageUrl: '', isPremium: false, publishedAt: '2026-03-24T12:00:00' },
+  { id: 5, title: 'Nomination: M. Youssef Bennani rejoint Bank Al-Maghrib comme DRH', content: 'M. Youssef Bennani prend la tete de la Direction des Ressources Humaines de Bank Al-Maghrib.', category: 'NOMINATION', imageUrl: '', isPremium: false, publishedAt: '2026-03-24T14:00:00' },
+  { id: 6, title: 'Conformite RGPD au Maroc : Guide pratique pour les RH', content: 'La protection des donnees personnelles des employes est devenue une priorite.', category: 'ACTUALITE', imageUrl: '', isPremium: true, publishedAt: '2026-03-23T11:00:00' },
+  { id: 7, title: 'Nomination: Dr. Amina Kettani nommee VP People chez Jumia Maroc', content: 'Dr. Amina Kettani rejoint Jumia Maroc en tant que Vice-Presidente People & Culture.', category: 'NOMINATION', imageUrl: '', isPremium: true, publishedAt: '2026-03-23T09:00:00' },
+  { id: 8, title: 'Comment les entreprises marocaines adoptent IA dans les RH', content: "L'intelligence artificielle transforme les processus RH au Maroc.", category: 'ETUDE', imageUrl: '', isPremium: false, publishedAt: '2026-03-22T15:00:00' },
+  { id: 9, title: 'Teletravail au Maroc : Cadre juridique et bonnes pratiques RH', content: 'Avec adoption croissante du teletravail, les DRH doivent adapter leurs politiques.', category: 'ACTUALITE', imageUrl: '', isPremium: false, publishedAt: '2026-03-21T10:00:00' },
 ];
 
 const CATEGORIES = [
-  { key: 'ALL', label: 'Tous', icon: '📋' },
-  { key: 'NEWS', label: 'Actualité', icon: '📰' },
-  { key: 'NOMINATION', label: 'Nominations', icon: '🏆' },
-  { key: 'ARTICLE', label: 'Interviews', icon: '🎙️' },
+  { key: 'ALL',        label: 'Tous',          icon: '📋' },
+  { key: 'ACTUALITE',  label: 'Actualite RH',  icon: '📰' },
+  { key: 'INTERVIEW',  label: 'Interviews',    icon: '🎙️' },
+  { key: 'ETUDE',      label: 'Etudes',        icon: '📊' },
+  { key: 'NOMINATION', label: 'Nominations',   icon: '🏆' },
 ];
 
 export const Articles: React.FC = () => {
@@ -45,10 +46,10 @@ export const Articles: React.FC = () => {
     id: typeof p.id === 'string' ? parseInt(p.id) || Date.now() : p.id,
     title: p.title,
     content: p.excerpt,
-    category: p.category === 'ACTUALITÉ RH' ? 'NEWS' : p.category === 'NOMINATION' ? 'NOMINATION' : 'ARTICLE',
+    category: p.category,
     imageUrl: p.image || '',
     isPremium: false,
-    publishedAt: new Date().toISOString(), // Mocking current date for dynamic posts
+    publishedAt: new Date().toISOString(),
   }));
 
   const allCombined = [...mappedDynamicPosts, ...ALL_ARTICLES];

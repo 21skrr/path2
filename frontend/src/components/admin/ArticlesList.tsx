@@ -3,7 +3,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { usePosts } from '../../contexts/PostsContext';
 import { Plus, Search, ChevronLeft, ChevronRight, Filter, Loader } from 'lucide-react';
 
-const CATEGORIES = ['Toutes', 'ACTUALITÉ RH', 'INTERVIEW', 'ETUDE', 'NOMINATION'];
+const CATEGORIES = ['Toutes', 'ACTUALITE', 'INTERVIEW', 'ETUDE', 'NOMINATION', 'ANNUAIRE', 'OFFRE_EMPLOI', 'TEXTE_LOI', 'ARTICLE'];
+const CATEGORY_LABELS: Record<string, string> = {
+  ACTUALITE: 'Actualite RH',
+  INTERVIEW: 'Interviews',
+  ETUDE: 'Etudes',
+  NOMINATION: 'Nominations',
+  ANNUAIRE: 'Annuaire',
+  OFFRE_EMPLOI: "Offres d'Emploi",
+  TEXTE_LOI: 'Textes de Loi',
+  ARTICLE: 'Articles',
+};
 const PAGE_SIZE = 10;
 
 export const ArticlesList: React.FC = () => {
@@ -13,6 +23,7 @@ export const ArticlesList: React.FC = () => {
   const [search, setSearch] = useState('');
   const [filterCategory, setFilterCategory] = useState('Toutes');
   const [filterStatus, setFilterStatus] = useState<'all' | 'published' | 'draft'>('all');
+  const [filterPlacement, setFilterPlacement] = useState<'all' | 'homepage'>('all');
   const [page, setPage] = useState(1);
   const [quickEditId, setQuickEditId] = useState<string | number | null>(null);
   const [quickEditData, setQuickEditData] = useState({ title: '', category: '', status: 'Published' });
@@ -22,9 +33,10 @@ export const ArticlesList: React.FC = () => {
     return posts.filter(p => {
       const matchSearch = search === '' || p.title.toLowerCase().includes(search.toLowerCase());
       const matchCat = filterCategory === 'Toutes' || p.category === filterCategory;
-      return matchSearch && matchCat;
+      const matchPlacement = filterPlacement === 'all' || (p.placement && p.placement !== 'STANDARD');
+      return matchSearch && matchCat && matchPlacement;
     });
-  }, [posts, search, filterCategory]);
+  }, [posts, search, filterCategory, filterPlacement]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -88,7 +100,14 @@ export const ArticlesList: React.FC = () => {
             value={filterCategory}
             onChange={e => { setFilterCategory(e.target.value); setPage(1); }}
           >
-            {CATEGORIES.map(c => <option key={c} value={c}>{c === 'Toutes' ? 'Toutes les catégories' : c}</option>)}
+            {CATEGORIES.map(c => <option key={c} value={c}>{c === 'Toutes' ? 'Toutes les categories' : CATEGORY_LABELS[c] || c}</option>)}
+          </select>
+          <select
+            value={filterPlacement}
+            onChange={e => { setFilterPlacement(e.target.value as any); setPage(1); }}
+          >
+            <option value="all">Tous les emplacements</option>
+            <option value="homepage">Page d'accueil uniquement</option>
           </select>
           <select style={{ minWidth: 120 }}>
             <option>Toutes les dates</option>
@@ -180,6 +199,11 @@ export const ArticlesList: React.FC = () => {
                         </td>
                         <td>
                           <span className="wp-cat-badge">{post.category}</span>
+                          {post.subCategory && (
+                            <div style={{ marginTop: 4, fontSize: 12, color: '#646970' }}>
+                              {post.subCategory}
+                            </div>
+                          )}
                         </td>
                         <td>
                           <span className="wp-status-badge wp-status-published">Publié</span>
@@ -212,10 +236,10 @@ export const ArticlesList: React.FC = () => {
                                     value={quickEditData.category}
                                     onChange={e => setQuickEditData({ ...quickEditData, category: e.target.value })}
                                   >
-                                    <option value="ACTUALITÉ RH">Actualité RH</option>
-                                    <option value="INTERVIEW">Interview</option>
-                                    <option value="ETUDE">Etude</option>
-                                    <option value="NOMINATION">Nomination</option>
+                                    <option value="ACTUALITE">Actualite RH</option>
+                                    <option value="INTERVIEW">Interviews</option>
+                                    <option value="ETUDE">Etudes</option>
+                                    <option value="NOMINATION">Nominations</option>
                                   </select>
                                 </div>
                                 <div className="wp-quickedit-field">

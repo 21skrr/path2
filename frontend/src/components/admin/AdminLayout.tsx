@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import {
-  LayoutDashboard, FileText, Plus, FolderOpen, Image, Users,
+  LayoutDashboard, FileText, Image, Users,
   Settings, ChevronDown, ChevronRight, ExternalLink, LogOut,
-  Menu, X, Bell, User, CreditCard
+  Menu, X, Bell, User, CreditCard, Briefcase, Scale
 } from 'lucide-react';
 
 interface NavItem {
@@ -12,30 +12,33 @@ interface NavItem {
   icon: React.ReactNode;
   href?: string;
   children?: { label: string; href: string }[];
+  adminOnly?: boolean;
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'Tableau de Bord', icon: <LayoutDashboard size={18} />, href: '/admin' },
+  { label: 'Tableau de Bord', icon: <LayoutDashboard size={18} />, href: '/admin', adminOnly: true },
   {
     label: 'Articles',
     icon: <FileText size={18} />,
     children: [
       { label: 'Tous les Articles', href: '/admin/articles' },
       { label: 'Ajouter un Article', href: '/admin/articles/new' },
-      { label: 'Catégories', href: '/admin/articles?filter=categories' },
     ],
   },
-  { label: 'Médias', icon: <Image size={18} />, href: '/admin/media' },
-  { label: 'Paiements', icon: <CreditCard size={18} />, href: '/admin/payments' },
-  { label: 'Utilisateurs', icon: <Users size={18} />, href: '/admin/users' },
-  { label: 'Réglages', icon: <Settings size={18} />, href: '/admin/settings' },
+  { label: 'Emplois',   icon: <Briefcase size={18} />, href: '/admin/jobs' },
+  { label: 'Ressources', icon: <Scale size={18} />,     href: '/admin/resources', adminOnly: true },
+  { label: 'Médias', icon: <Image size={18} />, href: '/admin/media', adminOnly: true },
+  { label: 'Paiements', icon: <CreditCard size={18} />, href: '/admin/payments', adminOnly: true },
+  { label: 'Utilisateurs', icon: <Users size={18} />, href: '/admin/users', adminOnly: true },
+  { label: 'Réglages', icon: <Settings size={18} />, href: '/admin/settings', adminOnly: true },
 ];
 
 interface AdminLayoutProps {
   children: React.ReactNode;
+  seniorMode?: boolean;
 }
 
-export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
+export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, seniorMode = false }) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<string[]>(['Articles']);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -43,6 +46,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const profileRef = useRef<HTMLDivElement>(null);
+
+  // Filter nav items based on role
+  const visibleNavItems = seniorMode
+    ? NAV_ITEMS.filter(item => !item.adminOnly)
+    : NAV_ITEMS;
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -73,17 +81,17 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       <aside className={`admin-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
         {/* Logo */}
         <div className="admin-sidebar-logo">
-          <div className="admin-logo-mark">
-            <span>P</span>
+          <div className="admin-logo-mark" style={seniorMode ? { background: 'linear-gradient(135deg, #7B2D8E, #d97706)' } : undefined}>
+            <span>{seniorMode ? '👑' : 'P'}</span>
           </div>
           {!sidebarCollapsed && (
-            <span className="admin-logo-text">P@TH Admin</span>
+            <span className="admin-logo-text">{seniorMode ? 'Espace Senior' : 'P@TH Admin'}</span>
           )}
         </div>
 
         {/* Nav */}
         <nav className="admin-nav">
-          {NAV_ITEMS.map((item) => (
+          {visibleNavItems.map((item) => (
             <div key={item.label} className="admin-nav-group">
               {item.children ? (
                 <>

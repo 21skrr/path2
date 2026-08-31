@@ -58,7 +58,33 @@ const VALUES = [
 
 export const PathLanding: React.FC = () => {
   const { scrollYProgress } = useScroll();
-  const navOpacity = useTransform(scrollYProgress, [0, 0.05], [0, 1]);
+  const navBg = useTransform(
+    scrollYProgress,
+    [0, 0.05],
+    ['rgba(255,255,255,0)', 'rgba(255,255,255,0.95)']
+  );
+  const navShadow = useTransform(
+    scrollYProgress,
+    [0, 0.05],
+    ['none', '0 2px 20px rgba(123,45,142,0.10)']
+  );
+  // Links: white on dark hero → dark gray on white bg
+  const navLinkColor = useTransform(
+    scrollYProgress,
+    [0, 0.05],
+    ['rgba(255,255,255,0.92)', '#374151']
+  );
+  // Logo: white on dark hero → brand purple on white bg
+  const navLogoColor = useTransform(
+    scrollYProgress,
+    [0, 0.05],
+    ['#ffffff', '#7B2D8E']
+  );
+  const navLogoAt = useTransform(
+    scrollYProgress,
+    [0, 0.05],
+    ['#2DD4BF', '#00B4A6']
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,26 +99,25 @@ export const PathLanding: React.FC = () => {
 
   return (
     <div className="font-inter text-gray-800" style={{ background: '#fafbff' }}>
-      {/* ── Sticky Nav (appears on scroll) ── */}
+      {/* ── Sticky Nav ── always visible, background appears on scroll ── */}
       <motion.nav
-        style={{ opacity: navOpacity }}
-        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-lg border-b"
+        style={{ backgroundColor: navBg, boxShadow: navShadow, backdropFilter: 'blur(12px)' }}
+        className="fixed top-0 left-0 right-0 z-50 border-b"
         role="navigation"
       >
         <div
           className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between"
-          style={{ background: 'rgba(255,255,255,0.92)', borderColor: 'rgba(123,45,142,0.08)' }}
         >
           <Link to="/about" className="flex items-center gap-2 no-underline">
-            <span className="text-2xl font-black tracking-tight" style={{ color: '#7B2D8E' }}>
-              P<span style={{ color: '#00B4A6' }}>@</span>TH
-            </span>
+            <motion.span className="text-2xl font-black tracking-tight" style={{ color: navLogoColor }}>
+              P<motion.span style={{ color: navLogoAt }}>@</motion.span>TH
+            </motion.span>
           </Link>
           <div className="hidden md:flex items-center gap-6">
-            <a href="#mission" className="text-sm font-medium no-underline" style={{ color: '#4b5563' }}>Mission</a>
-            <a href="#services" className="text-sm font-medium no-underline" style={{ color: '#4b5563' }}>Services</a>
-            <a href="#values" className="text-sm font-medium no-underline" style={{ color: '#4b5563' }}>Valeurs</a>
-            <a href="#gallery" className="text-sm font-medium no-underline" style={{ color: '#4b5563' }}>Galerie</a>
+            <motion.a href="#mission" className="text-sm font-semibold no-underline transition-colors" style={{ color: navLinkColor }}>Mission</motion.a>
+            <motion.a href="#services" className="text-sm font-semibold no-underline transition-colors" style={{ color: navLinkColor }}>Services</motion.a>
+            <motion.a href="#values" className="text-sm font-semibold no-underline transition-colors" style={{ color: navLinkColor }}>Valeurs</motion.a>
+            <motion.a href="#gallery" className="text-sm font-semibold no-underline transition-colors" style={{ color: navLinkColor }}>Galerie</motion.a>
             <Link
               to="/home"
               className="ml-4 text-sm font-semibold px-5 py-2 rounded-lg no-underline text-white"
@@ -106,8 +131,8 @@ export const PathLanding: React.FC = () => {
 
       {/* ══════════ HERO ══════════ */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* ── Magazine Ticker (top of hero) ── */}
-        <div className="absolute top-0 left-0 right-0 z-20">
+        {/* ── Magazine Ticker (below fixed nav) ── */}
+        <div className="absolute top-16 left-0 right-0 z-20">
           <NewsTicker />
         </div>
         {/* Gradient Background */}
@@ -354,7 +379,7 @@ export const PathLanding: React.FC = () => {
 
       {/* ══════════ PRICING ══════════ */}
       <section id="pricing" className="bg-white py-12 relative z-10">
-        <PricingSection onSelectPlan={(plan) => plan.price !== 0 && navigate('/membership')} />
+        <PricingSection onSelectPlan={(_plan) => navigate('/membership')} />
       </section>
 
       {/* ══════════ CTA ══════════ */}
