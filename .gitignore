@@ -1,38 +1,102 @@
-# Backend
+# ─────────────────────────────────────────────
+# Java / Maven
+# ─────────────────────────────────────────────
 backend/target/
-backend/.idea/
-backend/*.iml
-backend/.vscode/
+backend/*.jar
+backend/*.war
+backend/*.ear
+backend/*.class
+backend/hs_err_pid*
 
-# Frontend
+# Bundled Maven wrapper (project uses its own apache-maven-3.9.6 folder)
+backend/apache-maven-*/
+
+# Maven wrapper binary cache
+.mvn/wrapper/maven-wrapper.jar
+
+# ─────────────────────────────────────────────
+# Spring Boot / application logs
+# ─────────────────────────────────────────────
+backend/*.log
+backend/**/*.log
+backend/compilation_RESULTS_FINAL.log
+backend/final_user_compilation.log
+backend/server_STABLE.log
+
+# ─────────────────────────────────────────────
+# Node / npm / Vite / TypeScript
+# ─────────────────────────────────────────────
 frontend/node_modules/
 frontend/dist/
+frontend/.vite/
+frontend/tsc.log
+frontend/tsc_errors.txt
+frontend/tsconfig.tsbuildinfo
+frontend/tsconfig.node.tsbuildinfo
+
+# Frontend scratch / dump files
+frontend/code.html
+frontend/scratch.html
+frontend/scratch.txt
+frontend/dump*.txt
+frontend/code_travail_*.txt
+
+# ─────────────────────────────────────────────
+# Environment & secrets  <- NEVER commit these
+# ─────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
 frontend/.env.local
 frontend/.env.development.local
 frontend/.env.test.local
 frontend/.env.production.local
-frontend/npm-debug.log*
-frontend/yarn-debug.log*
-frontend/yarn-error.log*
 
+# ─────────────────────────────────────────────
 # IDEs
+# ─────────────────────────────────────────────
 .idea/
+*.iml
+*.ipr
+*.iws
 .vscode/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+*.factorypath
+
+# ─────────────────────────────────────────────
+# OS artifacts
+# ─────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ─────────────────────────────────────────────
+# Vim / Emacs swap files
+# ─────────────────────────────────────────────
 *.swp
 *.swo
 *~
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Environment
-.env
-.env.local
-
-# Build outputs
-*.jar
-*.class
-
-# Database
+# ─────────────────────────────────────────────
+# Database dumps / backups
+# ─────────────────────────────────────────────
 *.sql.bak
+*.dump
+
+# ─────────────────────────────────────────────
+# Docker
+# ─────────────────────────────────────────────
+# keep docker-compose.yml but ignore override files with local secrets
+docker-compose.override.yml

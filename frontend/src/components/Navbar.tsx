@@ -84,12 +84,8 @@ const ETUDES_CARDS = [
 ];
 
 const TEXTES_LOI_LINKS = [
-  { label: 'Code du Travail Marocain', href: '/textes-loi/code-travail' },
-  { label: 'Loi sur la Protection des Données (09-08)', href: '/textes-loi/loi-09-08' },
-  { label: 'Conventions Collectives', href: '/textes-loi/conventions' },
-  { label: 'Décrets & Arrêtés RH', href: '/textes-loi/decrets' },
-  { label: 'Textes sur la Sécurité au Travail', href: '/textes-loi/securite' },
-  { label: 'Réglementation du Télétravail', href: '/textes-loi/teletravail' },
+  { label: 'Code du Travail', href: '/textes-loi/code-travail' },
+  { label: 'Loi Droit de Grève 2025', href: '/textes-loi/loi-droit-de-greve' },
 ];
 
 // ── Component ─────────────────────────────────────────────────
@@ -103,8 +99,7 @@ export const Navbar: React.FC = () => {
 
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') === 'dark' || 
-        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      return localStorage.getItem('theme') === 'dark';
     }
     return false;
   });
@@ -133,7 +128,7 @@ export const Navbar: React.FC = () => {
   };
 
   const closeDropdown = () => {
-    timeoutRef.current = setTimeout(() => setActiveDropdown(null), 150);
+    timeoutRef.current = setTimeout(() => setActiveDropdown(null), 250);
   };
 
   const keepOpen = () => {

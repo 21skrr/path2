@@ -335,6 +335,17 @@
   animation: dropdownFadeIn 0.15s ease;
 }
 
+/* Invisible bridge to prevent hover loss between nav item and dropdown */
+.drh-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: 0;
+  right: 0;
+  height: 15px;
+  background: transparent;
+}
+
 @keyframes dropdownFadeIn {
   from { opacity: 0; transform: translateY(-6px); }
   to   { opacity: 1; transform: translateY(0); }

@@ -1,0 +1,91 @@
+# =============================================================
+#  HR Platform – Docker Compose
+#
+#  Usage:
+#    1. cp .env.example .env  &&  edit .env with real values
+#    2. docker compose up --build
+#
+#  Services:
+#    db        – PostgreSQL 16
+#    backend   – Spring Boot 3 / Java 17
+#    frontend  – React/Vite (built) served by Nginx
+# =============================================================
+
+services:
+
+  # ── PostgreSQL ─────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       ${DB_NAME:-hrplatform}
+      POSTGRES_USER:     ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Seed schema on first boot (runs only if volume is empty)
+      - ./database_setup.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_NAME:-hrplatform}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Spring Boot Backend ─────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${SERVER_PORT:-8080}:8080"
+    environment:
+      # Database – use the compose service name "db" as host
+      DB_HOST:     db
+      DB_PORT:     5432
+      DB_NAME:     ${DB_NAME:-hrplatform}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD}
+      # Server
+      SERVER_PORT: 8080
+      # Mail
+      MAIL_HOST:     ${MAIL_HOST:-smtp.gmail.com}
+      MAIL_PORT:     ${MAIL_PORT:-587}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      # RapidAPI
+      RAPIDAPI_JOBS_HOST: ${RAPIDAPI_JOBS_HOST}
+      RAPIDAPI_JOBS_KEY:  ${RAPIDAPI_JOBS_KEY}
+      # Admin seed
+      ADMIN_EMAIL:    ${ADMIN_EMAIL:-admin@example.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # ── React / Vite Frontend (Nginx) ───────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # At build time, point to the backend (use the public-facing URL in production)
+        VITE_API_URL: http://localhost:${SERVER_PORT:-8080}
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+
+# ── Named Volumes ───────────────────────────────────────────
+volumes:
+  postgres_data:

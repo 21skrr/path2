@@ -18,6 +18,9 @@ import { ResetPassword } from './pages/ResetPassword';
 import { PathLanding } from './pages/PathLanding';
 import { ContentDetail } from './pages/ContentDetail';
 import { CategoryPage } from './pages/CategoryPage';
+import { CodeTravailPage } from './pages/CodeTravailPage';
+import { LoiGreve2025Page } from './pages/LoiGreve2025Page';
+import { OffresEmploi } from './pages/OffresEmploi';
 import './styles/index.css';
 
 // ── Error Boundary ────────────────────────────────────────
@@ -101,7 +104,9 @@ function App() {
                   <Route path="/actualite-maroc" element={<CategoryPage type="actualite-maroc" />} />
                   <Route path="/actualite-france" element={<CategoryPage type="actualite-france" />} />
                   <Route path="/nominations" element={<CategoryPage type="nominations" />} />
-                  <Route path="/offres-emploi" element={<CategoryPage type="offres-emploi" />} />
+                  <Route path="/offres-emploi" element={<OffresEmploi />} />
+                  <Route path="/textes-loi/code-travail" element={<CodeTravailPage />} />
+                  <Route path="/textes-loi/loi-droit-de-greve" element={<LoiGreve2025Page />} />
                   <Route path="/textes-loi/:id" element={<CategoryPage type="textes-loi" />} />
                   <Route path="/textes-loi" element={<CategoryPage type="textes-loi" />} />
                   

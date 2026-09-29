@@ -1,0 +1,21 @@
+<USER_REQUEST>
+this is the pdf with all the date use it so the user when he press any art he can go to that part...
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-09-10T11:46:25+01:00.
+
+The user's current state is as follows:
+Other open documents:
+- c:\Users\zebi9\tw\path\frontend\src\pages\AdminDashboard.tsx (LANGUAGE_TSX)
+- c:\Users\zebi9\tw\path\frontend\src\pages\Home.tsx (LANGUAGE_TSX)
+- c:\Users\zebi9\tw\path\frontend\src\contexts\PostsContext.tsx (LANGUAGE_TSX)
+- c:\Users\zebi9\tw\path\frontend\src\pages\ResetPassword.tsx (LANGUAGE_TSX)
+- c:\Users\zebi9\tw\path\frontend\src\components\ui\travel-connect-signin.tsx (LANGUAGE_TSX)
+Browser State:
+  Page 435EAA50AC19B9BAC698E5BB5B106C70 (Loi droit de grève Maroc 2025 (loi 97.15)) - https://drh.ma/legislation-travail-maroc/loi-droit-de-greve-maroc-2025-loi-97-15... [ACTIVE]
+    Viewport: 1536x730, Page Height: 1869
+Running terminal commands:
+- .\apache-maven-3.9.6\bin\mvn.cmd spring-boot:run
+ (in c:\Users\zebi9\tw\path\backend, running for 1h5m22s)
+- npm run dev (in c:\Users\zebi9\tw\path\frontend, running for 1h3m56s)
+</ADDITIONAL_METADATA>

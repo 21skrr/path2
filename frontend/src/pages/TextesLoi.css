@@ -1,0 +1,434 @@
+/* ── Textes de Loi Pages ── */
+
+.loi-hero {
+  background: linear-gradient(160deg, #1a0a2e 0%, #3c1a63 50%, #00B4A6 100%);
+  padding: 64px 0 48px;
+}
+
+.loi-hero h1 {
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.loi-hero-sub {
+  color: rgba(255,255,255,0.75);
+  font-size: 1rem;
+  max-width: 600px;
+}
+
+.loi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+/* ── Layout ── */
+.loi-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 36px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .loi-container { grid-template-columns: 1fr; }
+  .loi-sidebar { position: static !important; }
+}
+
+/* ── Sidebar ── */
+.loi-sidebar {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.loi-sidebar-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0 12px;
+  margin-bottom: 4px;
+}
+
+.loi-sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--gray-600);
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  text-align: left;
+  width: 100%;
+}
+
+.loi-sidebar-link:hover {
+  background: var(--gray-100);
+  color: #7B2D8E;
+}
+
+.loi-sidebar-link.active {
+  background: #f0e6f8;
+  color: #7B2D8E;
+}
+
+.loi-sidebar-link .loi-sidebar-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* ── Main content ── */
+.loi-main {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ── Intro Card ── */
+.loi-intro-card {
+  background: linear-gradient(135deg, #f5f0ff, #f0fffe);
+  border: 1px solid #e0d0f0;
+  border-radius: 16px;
+  padding: 28px;
+}
+
+.loi-intro-card h2 {
+  font-size: 1rem;
+  color: #7B2D8E;
+  margin-bottom: 12px;
+}
+
+.loi-intro-card p {
+  color: #4b5563;
+  font-size: 14.5px;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.loi-intro-card .loi-note {
+  margin-top: 12px;
+  font-size: 12.5px;
+  color: #9aa1b3;
+  font-style: italic;
+}
+
+/* ── Book / Chapter block ── */
+.loi-book {
+  background: #fff;
+  border: 1px solid #e5e7ef;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(26,10,46,0.04);
+}
+
+.loi-book-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: linear-gradient(135deg, #1a0a2e, #3c1a63);
+  cursor: pointer;
+  user-select: none;
+  gap: 12px;
+}
+
+.loi-book-header:hover {
+  background: linear-gradient(135deg, #291244, #4a2475);
+}
+
+.loi-book-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loi-book-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #00B4A6;
+  background: rgba(0,180,166,0.15);
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+
+.loi-book-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.loi-book-chevron {
+  color: rgba(255,255,255,0.6);
+  font-size: 18px;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+
+.loi-book-chevron.open {
+  transform: rotate(180deg);
+}
+
+.loi-book-body {
+  padding: 0;
+}
+
+/* ── Titre / Section ── */
+.loi-titre {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.loi-titre:last-child {
+  border-bottom: none;
+}
+
+.loi-titre-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background: #f9fafb;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid #eef0f4;
+}
+
+.loi-titre-header:hover {
+  background: #f0e6f8;
+}
+
+.loi-titre-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #7B2D8E;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+.loi-titre-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1a0a2e;
+  flex: 1;
+}
+
+.loi-titre-chevron {
+  color: #9aa1b3;
+  font-size: 14px;
+  transition: transform 0.25s;
+}
+
+.loi-titre-chevron.open {
+  transform: rotate(180deg);
+}
+
+/* ── Article list ── */
+.loi-articles-list {
+  padding: 8px 0;
+}
+
+.loi-article-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 24px 10px 32px;
+  transition: background 0.15s;
+  cursor: pointer;
+}
+
+.loi-article-item:hover {
+  background: #faf5ff;
+}
+
+.loi-article-num {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  color: #7B2D8E;
+  background: #f0e6f8;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.loi-article-title {
+  font-size: 13.5px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+/* ── Chapter (for Greve law) ── */
+.loi-chapter-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background: #f9fafb;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid #eef0f4;
+}
+
+.loi-chapter-header:hover {
+  background: #f0fffe;
+}
+
+.loi-chapter-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #00B4A6;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+.loi-chapter-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1a0a2e;
+  flex: 1;
+}
+
+/* ── Stats strip ── */
+.loi-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.loi-stat-card {
+  background: #fff;
+  border: 1px solid #e5e7ef;
+  border-radius: 12px;
+  padding: 16px 20px;
+  text-align: center;
+}
+
+.loi-stat-val {
+  font-size: 28px;
+  font-weight: 800;
+  color: #7B2D8E;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.loi-stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 600px) {
+  .loi-stats { grid-template-columns: 1fr; }
+}
+
+/* ── Themes grid ── */
+.loi-themes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.loi-theme-card {
+  background: #fff;
+  border: 1px solid #e5e7ef;
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.loi-theme-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.loi-theme-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1a0a2e;
+}
+
+ /* ── Modal ── */
+.loi-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+}
+.loi-modal-content {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: modalFadeIn 0.2s ease-out;
+}
+.loi-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7ef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.loi-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #1a0a2e;
+}
+.loi-modal-close {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #9aa1b3;
+  cursor: pointer;
+}
+.loi-modal-body {
+  padding: 24px;
+  overflow-y: auto;
+}
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
